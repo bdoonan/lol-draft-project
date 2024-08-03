@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<form align = "right" method="post">
+    <label for="redteam">RedTeam</label>
+    <input name="redteam" id ="redteam" required placeholder="Red Team">
+    <input type="submit">
+</form>
+<form align = "left" method="post">
+    <label for="blueteam">BlueTeam</label>
+    <input name="blueteam" id ="blueteam" required placeholder="Blue Team">
+    <input type="submit">
+</form>
+<form align = "center" method="post">
+    <label for="tournament">tournament</label>
+    <input name="tournament" id ="tournament" required placeholder="Tournament and Year">
+    <input type="submit">
+</form>
+<h1>Ekko</h1>
+<img src="{{ url_for('static', filename='images/ekko.png') }}" class="image" />
+<img align = "right" src="{{ url_for('static', filename='images/rumble.png') }}" class="image" />
+
+<h1>olaf <span class = "right"> lee sin</span></h1>
+<img src="{{ url_for('static', filename='images/olaf.png') }}" class="image" />
+<img align = "right" src="{{ url_for('static', filename='images/leesin.png') }}" class="image" />
+
+<h1>viktor</h1>
+
+
+<img src="{{ url_for('static', filename='images/viktor.png') }}" class="image" />
+<img align = "right" src="{{ url_for('static', filename='images/karma.png') }}" class="image" />
+
+
+<h1>ezreal</h1>
+
+<img src="{{ url_for('static', filename='images/ezreal.png') }}" class="image" />
+<img align = "right" src="{{ url_for('static', filename='images/ashe.png') }}" class="image" />
+
+<h1>zyra</h1>
+
+<img src="{{ url_for('static', filename='images/zyra.png') }}" class="image" />
+<img align = "right" src="{{ url_for('static', filename='images/missfortune.png') }}" class="image" />
+
+
+
+
+</body>
+
+</html>

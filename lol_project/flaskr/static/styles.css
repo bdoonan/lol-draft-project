@@ -1,0 +1,15 @@
+body{
+    background-color: black;
+}
+h1{
+    color: white;
+}
+span{
+    color: white;
+}
+.right{
+    float:right;
+}
+input{
+    float: center;
+}
