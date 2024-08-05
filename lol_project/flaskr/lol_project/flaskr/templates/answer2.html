@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 align = "center">{{tourney[1]}}</h1>
+{% endblock %}
+{% block content2 %}
+<h1 align = "center">{{tourney[4]}} vs {{tourney[3]}}</h1>
+{% endblock %}
+{% block content3 %}
+<form align = "center" method="post">
+    <label for="game">Game</label>
+    <input name="game" id ="game" placeholder="Enter game number">
+    <input type="submit">
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 align = "center">{{tourney[1]}}</h1>
+{% endblock %}
+{% block content2 %}
+<form align = "center" method="post">
+    <label for="teams">Teams</label>
+    <input name="teams" id ="teams" placeholder="Enter teams with vs inbetween">
+    <input type="submit">
+</form>
+{% endblock %}
