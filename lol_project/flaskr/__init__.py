@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, request, redirect, url_for
+from flaskr.db import get_db
 
 def create_app(test_config=None):
 
@@ -18,12 +19,12 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-    @app.route('/')
-    def home():
-        return render_template('base.html')
     
     from . import db
     db.init_app(app)
 
+    from . import answer
+    app.register_blueprint(answer.bp)
+    app.add_url_rule('/', endpoint='input')
     return app
     

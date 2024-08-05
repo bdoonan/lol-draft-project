@@ -4,21 +4,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-<form align = "right" method="post">
-    <label for="redteam">RedTeam</label>
-    <input name="redteam" id ="redteam" required placeholder="Red Team">
-    <input type="submit">
-</form>
-<form align = "left" method="post">
-    <label for="blueteam">BlueTeam</label>
-    <input name="blueteam" id ="blueteam" required placeholder="Blue Team">
-    <input type="submit">
-</form>
-<form align = "center" method="post">
-    <label for="tournament">tournament</label>
-    <input name="tournament" id ="tournament" required placeholder="Tournament and Year">
-    <input type="submit">
-</form>
+<section class="content">
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
+<section class="content2">
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content2 %}{% endblock %}
+</section>
+<section class="content3">
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content3 %}{% endblock %}
+</section>
 <h1>Ekko</h1>
 <img src="{{ url_for('static', filename='images/ekko.png') }}" class="image" />
 <img align = "right" src="{{ url_for('static', filename='images/rumble.png') }}" class="image" />

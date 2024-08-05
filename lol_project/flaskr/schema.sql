@@ -4,26 +4,27 @@ DROP TABLE IF EXISTS game;
 
 CREATE TABLE blueTeam(
     team TEXT PRIMARY KEY,
-    pick1 TEXT NOT NULL,
-    pick2 TEXT NOT NULL,
-    pick3 TEXT NOT NULL,
-    pick4 TEXT NOT NULL,
-    pick5 TEXT NOT NULL
+    top TEXT NOT NULL,
+    jg TEXT NOT NULL,
+    mid TEXT NOT NULL,
+    adc TEXT NOT NULL,
+    sup TEXT NOT NULL
 );
 
 CREATE TABLE redTeam(
     team TEXT PRIMARY KEY,
-    pick1 TEXT NOT NULL,
-    pick2 TEXT NOT NULL,
-    pick3 TEXT NOT NULL,
-    pick4 TEXT NOT NULL,
-    pick5 TEXT NOT NULL
+    top TEXT NOT NULL,
+    jg TEXT NOT NULL,
+    mid TEXT NOT NULL,
+    adc TEXT NOT NULL,
+    sup TEXT NOT NULL
 );
 
 
 CREATE TABLE game (
-    year INTEGER PRIMARY KEY NOT NULL,
-    league TEXT NOT NULL,
+    number INTEGER PRIMARY KEY NOT NULL,
+    tournament TEXT NOT NULL,
+    game TEXT NOT NULL,
     red TEXT NOT NULL,
     blue TEXT NOT NULL,
     FOREIGN KEY (red) REFERENCES redTeam (team),
