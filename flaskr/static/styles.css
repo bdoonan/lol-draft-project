@@ -1,1 +1,16 @@
-
+body{
+    background-color: black;
+}
+h1{
+    color: white;
+}
+span{
+    color: white;
+}
+.right{
+    float:right;
+}
+img.one {
+    height: 60px;
+    width: 60px
+}
