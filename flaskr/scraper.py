@@ -3,7 +3,8 @@ import requests
 import sqlite3
 #Only run this file once to make the databases
 # Fetch the web page
-url = "https://lol.fandom.com/wiki/2016_Season_World_Championship/Match_History"
+#url = "https://lol.fandom.com/wiki/2016_Season_World_Championship/Match_History"
+url = "https://lol.fandom.com/wiki/2024_Mid-Season_Invitational/Match_History"
 response = requests.get(url)
 data = response.text
 
@@ -13,22 +14,23 @@ soup = BeautifulSoup(data, 'html.parser')
 # Extract the pick and bans and input into a hashmap
 # Every four indexes are a new game so the index for blue_bans%4 == 0, red_bans%4 == 1, blue_picks%4 == 2, red_picks%4 == 3
 #Use this to input in database later
-titles = soup.find_all('td')
-quotes={}
+champdata = soup.find_all('td')
+picksandbans={}
 index = 0
 index2=0
-for title in titles:
-    champs =(title.find_all('span', class_ = "sprite champion-sprite"))
+for champ in champdata:
+    champs =(champ.find_all('span', class_ = "sprite champion-sprite"))
     if len(champs)>=1:
         for i in range(len(champs)):
             value = champs[i]['title']
             value = str(value).lower()
             value = value.replace(" ", "")
             value = value.replace("'", "")
+            value - value.replace(".","")
             if i ==0:
-                quotes[index] = [value]
+                picksandbans[index] = [value]
             else:
-                quotes[index].append(value)
+                picksandbans[index].append(value)
         index+=1
 #We now do this for the teams that play
 teams = soup.find_all('td', class_= "mhgame-result")
@@ -40,11 +42,8 @@ for i in teams:
     #make sure the component is not empty as there are some in the html file
     if len(team)>0:
         #get rid of the patch objects
-        if team[0]['title'] != "Patch 6.18":
+        if not "Patch" in team[0]['title']:
             value = team[0]['title']
-            # value = str(value).lower()
-            # value = value.replace(" ", "")
-            # value = value.replace("-", "")
             #site displays the two teams and the winning team
             #we don't care about winning team, which is every third object so we do not put this in our hashmap
             #we also increment by 1 only after the second team is inputed so we get two teams per index for every game
@@ -76,13 +75,12 @@ cur = conn.cursor()
 for i in range(len(squads)):
     gameid = i
     tournament = "2016 Worlds"
-    game = 1
     red = squads[i][1]
     blue = squads[i][0]
 
     cur.execute('''
-                INSERT INTO game(id, tournament, game, red, blue) 
-                VALUES(?,?,?,?,?) ''', (gameid, tournament, game, red, blue))
+                INSERT INTO game(id, tournament, red, blue) 
+                VALUES(?,?,?,?) ''', (gameid, tournament, red, blue))
     conn.commit()
     #we also put the id values for the blue and red team tables that will be updated when we go through that hashmap
     cur.execute('''
@@ -95,16 +93,20 @@ for i in range(len(squads)):
     index+=1
 index = 0
 #now we loop through the champions using the mod rule discussed earlier
-for i in range(len(quotes)):
+for i in range(len(picksandbans)):
     
     gameid = index
     if i%4 == 0:
         #these are the bluebans
-        ban1 = quotes[i][0]
-        ban2 = quotes[i][1]
-        ban3 = quotes[i][2]
-        ban4 = "null"
-        ban5 = "null"
+        ban1 = picksandbans[i][0]
+        ban2 = picksandbans[i][1]
+        ban3 = picksandbans[i][2]
+        if len(picksandbans[i]) == 3:
+            ban4 = "null"
+            ban5 = "null"
+        else:
+            ban4 = picksandbans[i][3]
+            ban5 = picksandbans[i][4]
         cur.execute('''
                 UPDATE blueTeam SET ban1 = ?, ban2 = ?, ban3 = ?, ban4 = ?, ban5 = ? WHERE id = ?
                  ''', (ban1, ban2, ban3, ban4, ban5, gameid))
@@ -112,11 +114,15 @@ for i in range(len(quotes)):
 
     elif i%4 == 1:
         #these are the red bans
-        ban1 = quotes[i][0]
-        ban2 = quotes[i][1]
-        ban3 = quotes[i][2]
-        ban4 = "null"
-        ban5 = "null"
+        ban1 = picksandbans[i][0]
+        ban2 = picksandbans[i][1]
+        ban3 = picksandbans[i][2]
+        if len(picksandbans[i]) == 3:
+            ban4 = "null"
+            ban5 = "null"
+        else:
+            ban4 = picksandbans[i][3]
+            ban5 = picksandbans[i][4]
         cur.execute('''
                 UPDATE redTeam SET ban1 = ?, ban2 = ?, ban3 = ?, ban4 = ?, ban5 = ? WHERE id = ?
                  ''', (ban1, ban2, ban3, ban4, ban5, gameid))
@@ -124,22 +130,22 @@ for i in range(len(quotes)):
 
     elif i%4 == 2:
         #these are the blue picks
-        top = quotes[i][0]
-        jg = quotes[i][1]
-        mid = quotes[i][2]
-        adc = quotes[i][3]
-        sup = quotes[i][4]
+        top = picksandbans[i][0]
+        jg = picksandbans[i][1]
+        mid = picksandbans[i][2]
+        adc = picksandbans[i][3]
+        sup = picksandbans[i][4]
         cur.execute('''
                 UPDATE blueTeam SET top = ?, jg = ?, mid = ?, adc = ?, sup = ? WHERE id = ?
                  ''', (top, jg, mid, adc, sup, gameid))
         conn.commit()
     else:
         #these are the red picks
-        top = quotes[i][0]
-        jg = quotes[i][1]
-        mid = quotes[i][2]
-        adc = quotes[i][3]
-        sup = quotes[i][4]
+        top = picksandbans[i][0]
+        jg = picksandbans[i][1]
+        mid = picksandbans[i][2]
+        adc = picksandbans[i][3]
+        sup = picksandbans[i][4]
         cur.execute('''
                 UPDATE redTeam SET top = ?, jg = ?, mid = ?, adc = ?, sup = ? WHERE id = ?
                  ''', (top, jg, mid, adc, sup, gameid))
@@ -149,3 +155,4 @@ for i in range(len(quotes)):
 
 conn.close()
 
+print("Databases populated")

@@ -55,11 +55,11 @@ def check2():
     global id
     if request.method == 'POST':
         teams = request.form.get('game')
-        redTeam = tourney[3]
-        blueTeam = tourney[4]
+        redTeam = tourney[2]
+        blueTeam = tourney[3]
 
-        if teams == blueTeam + " vs " + redTeam:
-            return redirect(url_for("answer.check3"))
+        if teams == blueTeam + " vs " + redTeam or teams == redTeam + " vs " + blueTeam:
+            return render_template('answer2.html', tourney = tourney, blue = blue, red= red)
         else:
             tries +=1
         if tries >= 5:
@@ -67,25 +67,5 @@ def check2():
             return render_template('incorrect.html', tourney = tourney, blue = blue, red = red)
 
     return render_template('answer.html', tourney = tourney, blue = blue, red = red, team1 = team1, team2 = team2)
-@bp.route('/answer2.html', methods=('GET','POST'))
-def check3():
-    global tries
-    global id
-    if request.method == 'POST':
-        game = request.form['game']
-        error = None
-        if not game:
-            error = "Please input a team"
-        if error is None:
-            if int(game) == tourney[2]:
-                return render_template('answer3.html', tourney = tourney, blue = blue, red = red)
-            else:
-                tries +=1
-        if tries >= 5:
-            tries = 0
-            return render_template('incorrect.html', tourney = tourney, blue = blue, red = red)
-        #flash(error)
-
-    return render_template('answer2.html', tourney = tourney, blue = blue, red= red)
 
 
