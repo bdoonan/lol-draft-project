@@ -155,22 +155,24 @@ def makedb(tournament, picksandbans, squads, index, index2):
 
 
     conn.close()
-#we manually put the urls and tournament names and then we increment counter values to amke sure the database id values keep increasing
+#function used to populate the database with user manually inputting url and tournament name and then incrementing the counter to make sure game id is unique
+def popdata(url, tournament, counter, counter2):
+    url = url
+    picksandbans = {}
+    squads = {}
+    tournament = tournament
+    makemaps(url, picksandbans, squads)
+    makedb(tournament, picksandbans, squads, counter, counter2)
+    counter += len(squads)
+    counter2 = counter
+    return counter, counter2
+#this is the individual entries
 url = "https://lol.fandom.com/wiki/2024_Mid-Season_Invitational/Match_History"
-picksandbans = {}
-squads = {}
 tournament = "2024 MSI"
-makemaps(url, picksandbans, squads)
-makedb(tournament, picksandbans, squads, counter, counter2)
-counter += len(squads)
-counter2 += len(picksandbans)
-picksandbans = {}
-squads = {}
+counter, counter2 = popdata(url, tournament, counter, counter2)
+
 url = "https://lol.fandom.com/wiki/2016_Season_World_Championship/Match_History"
 tournament = "2016 Worlds"
-makemaps(url, picksandbans, squads)
-makedb(tournament, picksandbans, squads, counter, counter2)
-counter += len(squads)
-counter2 += len(picksandbans)
-print(counter, counter2)
+counter, counter2 = popdata(url, tournament, counter, counter2)
+
 print("Databases populated")
