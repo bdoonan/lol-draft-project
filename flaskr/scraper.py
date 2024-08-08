@@ -166,42 +166,103 @@ def popdata(url, tournament, counter, counter2):
     counter += len(squads)
     counter2 = counter
     return counter, counter2
-#this is the individual entries
-# url = "https://lol.fandom.com/wiki/2024_Mid-Season_Invitational/Match_History"
-# tournament = "2024 MSI"
-# counter, counter2 = popdata(url, tournament, counter, counter2)
 
-# url = "https://lol.fandom.com/wiki/2016_Season_World_Championship/Match_History"
-# tournament = "2016 Worlds"
-# counter, counter2 = popdata(url, tournament, counter, counter2)
+
+#Now we populate a hashmap for links and tournament names
 
 fulltournaments = {}
-fulltournaments[0]=["https://lol.fandom.com/wiki/2024_Mid-Season_Invitational/Match_History", "2024 MSI"]
-fulltournaments[1]=["https://lol.fandom.com/wiki/2023_Mid-Season_Invitational/Match_History", "2023 MSI"]
-fulltournaments[2]=["https://lol.fandom.com/wiki/2022_Mid-Season_Invitational/Match_History", "2022 MSI"]
-fulltournaments[3]=["https://lol.fandom.com/wiki/2021_Mid-Season_Invitational/Match_History", "2021 MSI"]
-fulltournaments[4]=["https://lol.fandom.com/wiki/2019_Mid-Season_Invitational/Main_Event/Match_History", "2019 MSI"]
-fulltournaments[5]=["https://lol.fandom.com/wiki/2018_Mid-Season_Invitational/Main_Event/Match_History", "2018 MSI"]
-fulltournaments[6]=["https://lol.fandom.com/wiki/2017_Mid-Season_Invitational/Main_Event/Match_History", "2017 MSI"]
-fulltournaments[7]=["https://lol.fandom.com/wiki/2016_Mid-Season_Invitational/Match_History", "2016 MSI"]
-fulltournaments[8]=["https://lol.fandom.com/wiki/2015_Mid-Season_Invitational/Match_History", "2015 MSI"]
+fulltournamentsindex = 0
 
-fulltournaments[10]=["https://lol.fandom.com/wiki/Season_2_World_Championship/Match_History", "2012 Worlds"]
-fulltournaments[11]=["https://lol.fandom.com/wiki/Season_3_World_Championship/Match_History", "2013 Worlds"]
-
-fulltournaments[12]=["https://lol.fandom.com/wiki/2014_Season_World_Championship/Match_History", "2014 Worlds"]
-fulltournaments[13]=["https://lol.fandom.com/wiki/2015_Season_World_Championship/Match_History", "2015 Worlds"]
-fulltournaments[14]=["https://lol.fandom.com/wiki/2016_Season_World_Championship/Match_History", "2016 Worlds"]
-
-fulltournaments[15]=["https://lol.fandom.com/wiki/2017_Season_World_Championship/Main_Event/Match_History", "2017 Worlds"]
-fulltournaments[16]=["https://lol.fandom.com/wiki/2018_Season_World_Championship/Main_Event/Match_History", "2018 Worlds"]
-fulltournaments[17]=["https://lol.fandom.com/wiki/2019_Season_World_Championship/Main_Event/Match_History", "2019 Worlds"]
-fulltournaments[18]=["https://lol.fandom.com/wiki/2020_Season_World_Championship/Main_Event/Match_History", "2020 Worlds"]
-fulltournaments[19]=["https://lol.fandom.com/wiki/2021_Season_World_Championship/Main_Event/Match_History", "2021 Worlds"]
-fulltournaments[20]=["https://lol.fandom.com/wiki/2022_Season_World_Championship/Main_Event/Match_History", "2022 Worlds"]
-fulltournaments[21]=["https://lol.fandom.com/wiki/2023_Season_World_Championship/Main_Event/Match_History", "2023 Worlds"]
-
-
+for i in range(2013,2025):
+    #Winter playoffs
+    if i>2022:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Winter_Playoffs/Match_History",str(i) + " LEC Winter Playoffs"]
+        fulltournamentsindex+=1
+    #Spring playoffs
+    #LCS
+    if i==2013:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Spring_Playoffs/Match_History",str(i) + " NA LCS Spring Playoffs"]
+        fulltournamentsindex+=1
+    elif i<2019:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " NA LCS Spring Playoffs"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
+        fulltournamentsindex+=1
+    #LEC
+    if i==2013:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/Season_" + str(i%10) +"/Spring_Playoffs/Match_History",str(i) + " EU LCS Spring Playoffs"]
+        fulltournamentsindex+=1
+    elif i<2019:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " EU LCS Spring Playoffs"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LEC Spring Playoffs"]
+        fulltournamentsindex+=1
+    #LCK
+    if i<2016:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Champions/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LCK Spring Playoffs"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LCK Spring Playoffs"]
+        fulltournamentsindex+=1
+    #LPL
+    if i>2014:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LPL Spring Playoffs"]
+        fulltournamentsindex+=1
+    #MSIs
+    if 2016<i<2020:    
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Mid-Season_Invitational/Main_Event/Match_History",str(i) + " MSI"]
+        fulltournamentsindex+=1
+  
+    else:    
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Mid-Season_Invitational/Match_History",str(i) + " MSI"]
+        fulltournamentsindex+=1
+    
+    #Summer playoffs
+        #LCS
+    if i==2013:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " NA LCS Summer Playoffs"]
+        fulltournamentsindex+=1
+    elif i<2019:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " NA LCS Summer Playoffs"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
+        fulltournamentsindex+=1
+    #LEC
+    if i==2013:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " EU LCS Summer Playoffs"]
+        fulltournamentsindex+=1
+    elif i<2019:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " EU LCS Summer Playoffs"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LEC Summer Playoffs"]
+        fulltournamentsindex+=1
+    #LCK
+    if i<2016:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Champions/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCK Summer Playoffs"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCK Summer Playoffs"]
+        fulltournamentsindex+=1
+    
+    #LPL
+    if i>2014:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LPL Summer Playoffs"]
+        fulltournamentsindex+=1
+    #Worlds
+    if i<2014:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Season_" + str(i%10) +"_World_Championship/Match_History",str(i) + " Worlds"]
+        fulltournamentsindex+=1
+    elif i>2016:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_World_Championship/Main_Event/Match_History",str(i) + " Worlds"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_World_Championship/Match_History",str(i) + " Worlds"]
+        fulltournamentsindex+=1
+#This calls the functions for all of the tournaments
 for i in fulltournaments:
     #print (fulltournaments[i][0])
     counter, counter2 = popdata(fulltournaments[i][0], fulltournaments[i][1], counter, counter2)
