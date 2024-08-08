@@ -12,13 +12,10 @@ cur = conn.cursor()
 global tries
 tries = 0
 global id
-id = random.randint(0,77)
-team1 = cur.execute(
+entries = cur.execute(
             'SELECT * from game'
-        ).fetchall()
-team2 = cur.execute(
-            'SELECT * from game'
-        ).fetchall()
+            ).fetchall()
+id = random.randint(0,len(entries))
 tourney = cur.execute(
             'SELECT * from game WHERE id = ?', (id,)
         ).fetchone()
@@ -28,6 +25,17 @@ blue = cur.execute(
 red = cur.execute(
             'SELECT * from redTeam WHERE id = ?', (id,)
         ).fetchone()
+tourneyid = tourney[1]
+listoftourney = []
+for i in range(len(entries)):
+    listoftourney.append(entries[i][1]) 
+listoftourney = list(set(listoftourney))   
+team1 = cur.execute(
+            'SELECT * from game WHERE tournament = ?', (tourneyid,)
+            ).fetchall()
+team2 = cur.execute(
+            'SELECT * from game WHERE tournament = ?', (tourneyid,)
+        ).fetchall()
 @bp.route('/', methods=('GET','POST'))
 def check():
     global tries
@@ -42,13 +50,14 @@ def check():
             if tournament == str(tourney[1]).lower():
                 return redirect(url_for("answer.check2"))
             else:
+                error = ("Tries left: "+ str(4-tries))
+                flash(error)
                 tries +=1
         if tries >= 5:
             tries = 0
             return render_template('incorrect.html', tourney = tourney, blue = blue, red = red)
-        #flash(error)
 
-    return render_template('input.html', tourney = tourney, blue = blue, red = red)
+    return render_template('input.html', id = str(id), tourney = tourney, blue = blue, red = red, listoftourney = listoftourney)
 @bp.route('/answer.html', methods=('GET','POST'))
 def check2():
     global tries
@@ -58,9 +67,11 @@ def check2():
         redTeam = tourney[2]
         blueTeam = tourney[3]
 
-        if teams == blueTeam + " vs " + redTeam or teams == redTeam + " vs " + blueTeam:
+        if teams == blueTeam + " vs " + redTeam:
             return render_template('answer2.html', tourney = tourney, blue = blue, red= red)
         else:
+            error = ("Tries left: " + str(4-tries))
+            flash(error)
             tries +=1
         if tries >= 5:
             tries = 0

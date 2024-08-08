@@ -103,8 +103,8 @@ def makedb(tournament, picksandbans, squads, index, index2):
             ban2 = picksandbans[i][1]
             ban3 = picksandbans[i][2]
             if len(picksandbans[i]) == 3:
-                ban4 = "null"
-                ban5 = "null"
+                ban4 = "none"
+                ban5 = "none"
             else:
                 ban4 = picksandbans[i][3]
                 ban5 = picksandbans[i][4]
@@ -119,8 +119,8 @@ def makedb(tournament, picksandbans, squads, index, index2):
             ban2 = picksandbans[i][1]
             ban3 = picksandbans[i][2]
             if len(picksandbans[i]) == 3:
-                ban4 = "null"
-                ban5 = "null"
+                ban4 = "none"
+                ban5 = "none"
             else:
                 ban4 = picksandbans[i][3]
                 ban5 = picksandbans[i][4]
@@ -167,12 +167,42 @@ def popdata(url, tournament, counter, counter2):
     counter2 = counter
     return counter, counter2
 #this is the individual entries
-url = "https://lol.fandom.com/wiki/2024_Mid-Season_Invitational/Match_History"
-tournament = "2024 MSI"
-counter, counter2 = popdata(url, tournament, counter, counter2)
+# url = "https://lol.fandom.com/wiki/2024_Mid-Season_Invitational/Match_History"
+# tournament = "2024 MSI"
+# counter, counter2 = popdata(url, tournament, counter, counter2)
 
-url = "https://lol.fandom.com/wiki/2016_Season_World_Championship/Match_History"
-tournament = "2016 Worlds"
-counter, counter2 = popdata(url, tournament, counter, counter2)
+# url = "https://lol.fandom.com/wiki/2016_Season_World_Championship/Match_History"
+# tournament = "2016 Worlds"
+# counter, counter2 = popdata(url, tournament, counter, counter2)
 
+fulltournaments = {}
+fulltournaments[0]=["https://lol.fandom.com/wiki/2024_Mid-Season_Invitational/Match_History", "2024 MSI"]
+fulltournaments[1]=["https://lol.fandom.com/wiki/2023_Mid-Season_Invitational/Match_History", "2023 MSI"]
+fulltournaments[2]=["https://lol.fandom.com/wiki/2022_Mid-Season_Invitational/Match_History", "2022 MSI"]
+fulltournaments[3]=["https://lol.fandom.com/wiki/2021_Mid-Season_Invitational/Match_History", "2021 MSI"]
+fulltournaments[4]=["https://lol.fandom.com/wiki/2019_Mid-Season_Invitational/Main_Event/Match_History", "2019 MSI"]
+fulltournaments[5]=["https://lol.fandom.com/wiki/2018_Mid-Season_Invitational/Main_Event/Match_History", "2018 MSI"]
+fulltournaments[6]=["https://lol.fandom.com/wiki/2017_Mid-Season_Invitational/Main_Event/Match_History", "2017 MSI"]
+fulltournaments[7]=["https://lol.fandom.com/wiki/2016_Mid-Season_Invitational/Match_History", "2016 MSI"]
+fulltournaments[8]=["https://lol.fandom.com/wiki/2015_Mid-Season_Invitational/Match_History", "2015 MSI"]
+
+fulltournaments[10]=["https://lol.fandom.com/wiki/Season_2_World_Championship/Match_History", "2012 Worlds"]
+fulltournaments[11]=["https://lol.fandom.com/wiki/Season_3_World_Championship/Match_History", "2013 Worlds"]
+
+fulltournaments[12]=["https://lol.fandom.com/wiki/2014_Season_World_Championship/Match_History", "2014 Worlds"]
+fulltournaments[13]=["https://lol.fandom.com/wiki/2015_Season_World_Championship/Match_History", "2015 Worlds"]
+fulltournaments[14]=["https://lol.fandom.com/wiki/2016_Season_World_Championship/Match_History", "2016 Worlds"]
+
+fulltournaments[15]=["https://lol.fandom.com/wiki/2017_Season_World_Championship/Main_Event/Match_History", "2017 Worlds"]
+fulltournaments[16]=["https://lol.fandom.com/wiki/2018_Season_World_Championship/Main_Event/Match_History", "2018 Worlds"]
+fulltournaments[17]=["https://lol.fandom.com/wiki/2019_Season_World_Championship/Main_Event/Match_History", "2019 Worlds"]
+fulltournaments[18]=["https://lol.fandom.com/wiki/2020_Season_World_Championship/Main_Event/Match_History", "2020 Worlds"]
+fulltournaments[19]=["https://lol.fandom.com/wiki/2021_Season_World_Championship/Main_Event/Match_History", "2021 Worlds"]
+fulltournaments[20]=["https://lol.fandom.com/wiki/2022_Season_World_Championship/Main_Event/Match_History", "2022 Worlds"]
+fulltournaments[21]=["https://lol.fandom.com/wiki/2023_Season_World_Championship/Main_Event/Match_History", "2023 Worlds"]
+
+
+for i in fulltournaments:
+    #print (fulltournaments[i][0])
+    counter, counter2 = popdata(fulltournaments[i][0], fulltournaments[i][1], counter, counter2)
 print("Databases populated")
