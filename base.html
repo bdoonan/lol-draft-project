@@ -10,16 +10,13 @@
 </head>
 <body>
   <section class="content">
-      {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
     {% block content %}{% endblock %}
   </section>
   <section class="content2">
-      {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
     {% block content2 %}{% endblock %}
+    {% for message in get_flashed_messages() %}
+    <div align = "center" class="flash">{{ message }}</div>
+  {% endfor %}
   </section>
 
   <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[6])) }}">

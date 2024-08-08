@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-<form align = "center" method="post">
-    <label for="tournament">Tournament</label>
-    <input name="tournament" id ="tournament" placeholder="Please enter tournament">
-    <input type="submit">
-</form>
+<form method="post">
+    <div align = "center" class="select">
+        <select data-placeholder= "Select a tournament" name = "tournament", id = "tournament", class = "search", style = "width: 200px;">
+            <option value = ""></option>
+            {% for i in listoftourney %}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+</form>    
+
+<script type="text/javascript">
+$(function() {
+    $(".search").chosen();
+});
+</script>
 {% endblock %}
 
