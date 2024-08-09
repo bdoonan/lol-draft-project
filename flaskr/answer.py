@@ -44,9 +44,10 @@ listoftourney = list(set(listoftourney))
 team1 = cur.execute(
             'SELECT * from game WHERE tournament = ?', (tourneyid,)
             ).fetchall()
-team2 = cur.execute(
-            'SELECT * from game WHERE tournament = ?', (tourneyid,)
-        ).fetchall()
+listofteams = []
+for i in range(len(team1)):
+    listofteams.append(team1[i][3]+ " vs " +team1[i][2]) 
+listofteams = list(set(listofteams))
 #this is the redirect for the tournament entry
 @bp.route('/', methods=('GET','POST'))
 def check():
@@ -79,6 +80,7 @@ def check():
 @bp.route('/answer.html', methods=('GET','POST'))
 def check2():
     global tries
+
     if request.method == 'POST':
         #get the selected input from answer.html
         teams = request.form.get('game')
@@ -98,6 +100,6 @@ def check2():
             tries = 0
             return render_template('incorrect.html', tourney = tourney, blue = blue, red = red)
     #this is the template and variables needed for the page for this function
-    return render_template('answer.html', tourney = tourney, blue = blue, red = red, team1 = team1, team2 = team2)
+    return render_template('answer.html', tourney = tourney, blue = blue, red = red, listofteams=listofteams)
 
 
