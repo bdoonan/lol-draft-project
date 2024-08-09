@@ -1,7 +1,6 @@
 <html>
 {% extends 'base.html' %} 
 {% block content %}
-<h1>{{id}}</h1>
 <h1 align = "center">{{tourney[1]}}</h1>
 {% endblock %}
 {% block content2 %}
@@ -9,8 +8,8 @@
     <div align = "center" class="select">
         <select data-placeholder= "Select a game" name = "game", id = "game", class = "search">
             <option value = ""></option>
-            {% for team in team1 %}
-            <option value="{{team[3]}} vs {{team[2]}}">{{team[3]}} vs {{team[2]}}</option>
+            {% for team in listofteams %}
+            <option value="{{team}}">{{team}}</option>
             {% endfor %}
         </select>
         <button type="submit" class="btn btn-default">Submit</button>
