@@ -3,13 +3,22 @@ import requests
 import sqlite3
 #Only run this file once to make the databases
 
-def makemaps(url, picksandbans, squads):   
+def makemaps(url, playermap, picksandbans, squads):   
     response = requests.get(url)
     data = response.text
 
     # Parse the HTML content
     soup = BeautifulSoup(data, 'html.parser')
-
+    index = -1
+    fullgame = soup.find_all('tr', class_ = ["mhgame-blue multirow-highlighter", "mhgame-red multirow-highlighter" ])
+    for full in fullgame:
+        players =full.find_all('a', class_ = ["catlink-players pWAG pWAN to_hasTooltip","mw-redirect to_hasTooltip","catlink-players pWAN to_hasTooltip","catlink-players pWAG to_hasTooltip"])
+        for i in range(len(players)):
+            if i%5==0:
+                index+=1
+                playermap[index] = [players[i]['title']]
+            else:
+                playermap[index].append(players[i]['title'])
     # Extract the pick and bans and input into a hashmap
     # Every four indexes are a new game so the index for blue_bans%4 == 0, red_bans%4 == 1, blue_picks%4 == 2, red_picks%4 == 3
     #Use this to input in database later
@@ -58,7 +67,7 @@ def makemaps(url, picksandbans, squads):
 #Since we have to update the values at different indexes for the champion picks we want to initliaze all the values first
 counter = 0
 counter2 = 0
-def makedb(tournament, picksandbans, squads, index, index2):
+def makedb(tournament, playermap, picksandbans, squads, index, index2):
     top = ""
     jg = ""
     mid = ""
@@ -69,31 +78,58 @@ def makedb(tournament, picksandbans, squads, index, index2):
     ban3 = ""
     ban4 = ""
     ban5 = ""
+    topplayer = ""
+    jgplayer = ""
+    midplayer = ""
+    adcplayer = ""
+    supplayer = ""
     #connect to database
     conn = sqlite3.connect("test.db")
     cur = conn.cursor()
     #loop through the teams hashmap and input into the game database the two teams at each index
-
+    playercounter = index
     for i in range(len(squads)):
         #gameid = i
         tournament = tournament
         red = squads[i][1]
         blue = squads[i][0]
-
         cur.execute('''
                     INSERT INTO game(id, tournament, red, blue) 
                     VALUES(?,?,?,?) ''', (index, tournament, red, blue))
         conn.commit()
         #we also put the id values for the blue and red team tables that will be updated when we go through that hashmap
         cur.execute('''
-                    INSERT INTO blueTeam(id, top, jg, mid, adc, sup, ban1, ban2, ban3, ban4, ban5)
-                    VALUES(?,?,?,?,?,?,?,?,?,?,?) ''', (index, top, jg, mid, adc, sup, ban1, ban2, ban3, ban4, ban5))
-        
+                    INSERT INTO blueTeam(id, top, jg, mid, adc, sup, ban1, ban2, ban3, ban4, ban5, topPlayer, jgPlayer, midPlayer, adcPlayer, supPlayer)
+                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ''', (index, top, jg, mid, adc, sup, ban1, ban2, ban3, ban4, ban5, topplayer, jgplayer, midplayer, adcplayer, supplayer))
+        conn.commit()
         cur.execute('''
-                    INSERT INTO redTeam(id, top, jg, mid, adc, sup, ban1, ban2, ban3, ban4, ban5)
-                    VALUES(?,?,?,?,?,?,?,?,?,?,?) ''', (index, top, jg, mid, adc, sup, ban1, ban2, ban3, ban4, ban5))
+                    INSERT INTO redTeam(id, top, jg, mid, adc, sup, ban1, ban2, ban3, ban4, ban5, topPlayer, jgPlayer, midPlayer, adcPlayer, supPlayer)
+                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ''', (index, top, jg, mid, adc, sup, ban1, ban2, ban3, ban4, ban5, topplayer, jgplayer, midplayer, adcplayer, supplayer))
+        conn.commit()
         index+=1
     #now we loop through the champions using the mod rule discussed earlier
+    for i in range(len(playermap)):
+        if i%2==0:
+            topplayer = playermap[i][0]
+            jgplayer = playermap[i][1]
+            midplayer = playermap[i][2]
+            adcplayer = playermap[i][3]
+            supplayer = playermap[i][4]
+            cur.execute('''
+                    UPDATE blueTeam SET topPlayer= ?, jgPlayer = ?, midPlayer = ?, adcPlayer = ?, supPlayer = ? WHERE id = ?
+                    ''', (topplayer, jgplayer, midplayer, adcplayer, supplayer, playercounter))
+            conn.commit()
+        else:
+            topplayer = playermap[i][0]
+            jgplayer = playermap[i][1]
+            midplayer = playermap[i][2]
+            adcplayer = playermap[i][3]
+            supplayer = playermap[i][4]
+            cur.execute('''
+                    UPDATE redTeam SET topPlayer= ?, jgPlayer = ?, midPlayer = ?, adcPlayer = ?, supPlayer = ? WHERE id = ?
+                    ''', (topplayer, jgplayer, midplayer, adcplayer, supplayer, playercounter))
+            conn.commit()
+            playercounter+=1
     for i in range(len(picksandbans)):
         
         gameid = index2
@@ -160,9 +196,10 @@ def popdata(url, tournament, counter, counter2):
     url = url
     picksandbans = {}
     squads = {}
+    playermap ={}
     tournament = tournament
-    makemaps(url, picksandbans, squads)
-    makedb(tournament, picksandbans, squads, counter, counter2)
+    makemaps(url, playermap, picksandbans, squads)
+    makedb(tournament, playermap, picksandbans, squads, counter, counter2)
     counter += len(squads)
     counter2 = counter
     return counter, counter2
@@ -181,20 +218,20 @@ for i in range(2013,2025):
     #Spring playoffs
     #LCS
     if i==2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Spring_Playoffs/Match_History",str(i) + " NA LCS Spring Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
         fulltournamentsindex+=1
     elif i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " NA LCS Spring Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
         fulltournamentsindex+=1
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
         fulltournamentsindex+=1
     #LEC
     if i==2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/Season_" + str(i%10) +"/Spring_Playoffs/Match_History",str(i) + " EU LCS Spring Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/Season_" + str(i%10) +"/Spring_Playoffs/Match_History",str(i) + " LEC Spring Playoffs"]
         fulltournamentsindex+=1
     elif i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " EU LCS Spring Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LEC Spring Playoffs"]
         fulltournamentsindex+=1
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LEC Spring Playoffs"]
@@ -222,20 +259,23 @@ for i in range(2013,2025):
     #Summer playoffs
         #LCS
     if i==2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " NA LCS Summer Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
         fulltournamentsindex+=1
     elif i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " NA LCS Summer Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
+        fulltournamentsindex+=1
+    elif i<2021:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer_Playoffs"]
         fulltournamentsindex+=1
     else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i)+ "_Season/Championship/Match_History",str(i) + " LCS Summer Playoffs"]
         fulltournamentsindex+=1
     #LEC
     if i==2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " EU LCS Summer Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " LEC Summer Playoffs"]
         fulltournamentsindex+=1
     elif i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " EU LCS Summer Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LEC Summer Playoffs"]
         fulltournamentsindex+=1
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LEC Summer Playoffs"]
