@@ -3,55 +3,219 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
 </head>
 <body>
+  
   <section class="content">
-    {% block content %}{% endblock %}
-  </section>
+      {% block content %}{% endblock %}
+    </section>
   <section class="content2">
     {% block content2 %}{% endblock %}
-    {% for message in get_flashed_messages() %}
-    <div align = "center" class="flash">{{ message }}</div>
-  {% endfor %}
+  </section>
+  
+</section>
+    <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[6])) }}">
+    <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[7])) }}">
+    <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[8])) }}">
+    <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[9])) }}">
+    <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[10])) }}">
+    
+    <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[6])) }}">
+    <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[7])) }}">
+    <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[8])) }}">
+    <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[9])) }}">
+    <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[10])) }}">
+    {% block buttons %}{% endblock %}
+    {%block attempts%}{% endblock %}
+  </section>
+ 
+  <section class = "topimages">
+    <img src="{{ url_for('static',filename='images/{}.png'.format(blue[1]) ) }}">
+    
+    
+    <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[1]) ) }}">
+    
+  </section>
+  
+
+  <section class="guess1">
+    
+    <div style="text-align: center">
+    <span id = "guess1y" style="color: white; font-size: 20px; display: inline;">
+
+    </span> 
+    <span id = "guess1t" style="color: white; font-size: 20px; display: inline;">
+      
+    </span> 
+    <span id = "guess1s" style="color: white; font-size: 20px; display: inline;">
+  
+    </span> 
+    </div>
   </section>
 
-  <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[6])) }}">
-  <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[7])) }}">
-  <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[8])) }}">
-  <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[9])) }}">
-  <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[10])) }}">
 
-  <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[6])) }}">
-  <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[7])) }}">
-  <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[8])) }}">
-  <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[9])) }}">
-  <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[10])) }}">
-
-
-  <h1></h1>
-  <img src="{{ url_for('static',filename='images/{}.png'.format(blue[1]) ) }}">
-  <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[1]) ) }}">
-  <h1></h1>
-  <img src="{{ url_for('static',filename='images/{}.png'.format(blue[2]) ) }}">
-  <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[2]) ) }}">
-  <h1></h1>
-  <img src="{{ url_for('static',filename='images/{}.png'.format(blue[3]) ) }}">
-  <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[3]) ) }}">
-  <h1></h1>
-  <img src="{{ url_for('static',filename='images/{}.png'.format(blue[4]) ) }}">
-  <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[4]) ) }}">
-  <h1></h1>
-  <img src="{{ url_for('static',filename='images/{}.png'.format(blue[5]) ) }}">
-  <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[5]) ) }}">
-  <h1></h1>
-
-
+  <h2  class = "top">
+    <div>
+      <span id="1" style='display: none; color: white;'>Top: {{blue[11]}}</span>
+    </div>
+    <div style="text-align: right;">
+      <span id="6" style='display: none; color: white;'>Top: {{red[11]}}</span>
+    </div>
+  </h2>
+   
+  
+  <br><section class = "jgimages">
+    <img src="{{ url_for('static',filename='images/{}.png'.format(blue[2]) ) }}">
+    <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[2]) ) }}">
+  </section>
+  
+  
+  <section class="guess2">
+    <div style="text-align: center">
+      <span id = "guess2y" style="color: white; font-size: 20px; display: inline;">
+      </span> 
+      <span id = "guess2t" style="color: white; font-size: 20px; display: inline;">
+      
+      </span> 
+      <span id = "guess2s" style="color: white; font-size: 20px; display: inline;">
+    
+      </span> 
+      </div>
+  </section>
 
 
+  <h2 class = "jg">
+    <div>
+      <span id="2" style='display: none; color: white;'>Jg: {{blue[12]}}</span>
+    </div>
+    <div style="text-align: right;">
+      <span id="7" style='display: none; color: white;'>Jg: {{red[12]}}</span>
+    </div>
+  </h2>
+
+
+  <br><section class = "midimages">
+    <img src="{{ url_for('static',filename='images/{}.png'.format(blue[3]) ) }}">
+    <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[3]) ) }}">
+  </section>
+  
+  
+  <section class="guess3">
+    <div style="text-align: center">
+      <span id = "guess3y" style="color: white; font-size: 20px; display: inline;">
+
+      </span> 
+      <span id = "guess3t" style="color: white; font-size: 20px; display: inline;">
+      
+      </span> 
+      <span id = "guess3s" style="color: white; font-size: 20px; display: inline;">
+    
+      </span> 
+      </div>
+  </section>
+  <h2 class = "mid">
+    <div>
+      <span id="3" style='display: none; color: white;'>Mid: {{blue[13]}}</span>
+    </div>
+    <div style="text-align: right;">
+      <span id="8" style='display: none; color: white;'>Mid: {{red[13]}}</span>
+    </div>
+  </h2>
+  
+
+  <br><section class = "adcimages">
+    <img src="{{ url_for('static',filename='images/{}.png'.format(blue[4]) ) }}">
+    <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[4]) ) }}">
+  </section>
+  
+  
+  <section class="guess4">
+    <div style="text-align: center">
+      <span id = "guess4y" style="color: white; font-size: 20px; display: inline;">
+      </span> 
+      <span id = "guess4t" style="color: white; font-size: 20px; display: inline;">
+      
+      </span> 
+      <span id = "guess4s" style="color: white; font-size: 20px; display: inline;">
+    
+      </span> 
+      </div>
+  </section>
+
+
+    <h2 class = "adc">
+      <div>
+        <span id="4" style='display: none; color: white;'>Adc: {{blue[14]}}</span>
+      </div>
+      <div style="text-align: right;">
+        <span id="9" style='display: none; color: white;'>Adc: {{red[14]}}</span>
+      </div>
+    </h2>
+  
+
+  <br><section class = "supimages">
+    <img src="{{ url_for('static',filename='images/{}.png'.format(blue[5]) ) }}">
+    <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[5]) ) }}">
+  </section>
+
+  <section class="guess0">
+    <div style="text-align: center">
+      <span id = "guess0y" style="color: white; font-size: 20px; display: inline;">
+      </span> 
+      <span id = "guess0t" style="color: white; font-size: 20px; display: inline;">
+      
+      </span> 
+      <span id = "guess0s" style="color: white; font-size: 20px; display: inline;">
+    
+      </span> 
+      </div>
+  </section>
+
+
+  <h2 class = "sup">
+    <div>
+      <span id="5" style='display: none; color: white;'>Sup: {{blue[15]}}</span>
+    </div>
+    <div style="text-align: right;">
+      <span id="10" style='display: none; color: white;'>Sup: {{red[15]}}</span>
+    </div>
+  </h2>
+
+
+{% block revealAll %}{% endblock %}
+<script>
+  if (localStorage){
+    //localStorage.removeItem('completed');
+    if (localStorage.getItem('streak')==null){
+      localStorage.setItem('streak',0);
+    }
+    const counter = localStorage.getItem('streak');
+    //localStorage.removeItem('streak')
+    //console.log(counter);
+    const id = "{{id}}";
+    window.checkcomplete(id);
+    const savedScores = localStorage.getItem('completed');
+    
+    const check = localStorage.getItem('done');
+    console.log(check);
+    // if (savedScores == 'correct'){
+    //   window.location.href = '/correct';
+    // }
+    // else if (savedScores == "incorrect"){
+    //   window.location.href = '/incorrect';
+    // }
+    
+    
+  }
+  else{
+    console.log("not supported");
+  }
+</script>
 </body>
 
 </html>

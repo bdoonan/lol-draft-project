@@ -7,28 +7,35 @@
 <body>
   <section class="content">
     <div style="text-align: center">
-        <span style="color: white; font-size: 30px;"> Sorry. The correct answer was {{ tourney[1] }} {{ tourney[3] }} vs {{tourney[2]}} </span>
+        <span style="color: white; font-size: 30px;">{{tourney[1]}} {{tourney[3]}} vs {{tourney[2]}}</span>
         </div>
     </section>
+  <section class="content2">
+    <div style="text-align: center">
+        <span style="color: white; font-size: 30px;">Congratulations you got the correct answer in {{attempts}} attempt(s)</span>
+        </div>
+  </section>
   </section>
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[6])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[7])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[8])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[9])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[10])) }}">
-
+    
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[6])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[7])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[8])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[9])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[10])) }}">
-    
+    <div style="text-align: center">
+        <span id = "streak" style="color: white; font-size: 20px;">Current Streak: </span>
+        </div>
   
   </section>
   <section class = "topimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[1]) ) }}">
     
-   
+    {%block attempts%}{% endblock %}
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[1]) ) }}">
   </section>
   
@@ -95,15 +102,23 @@
   </h2>
   <script>
     window.revealText();
-    //const id = "{{id}}";
-    //window.checkcomplete(id);
-    localStorage.setItem('completed', 'incorrect');
+    // localStorage.removeItem('completed');
+    // localStorage.removeItem('streak');
+    const check = "{{id}}";
+    localStorage.setItem('done', check);
+    var counter = localStorage.getItem('streak');
+    if (localStorage.getItem('completed') == null){
+        localStorage.setItem('streak', ++counter);
+        
+    }
+    localStorage.setItem('completed', 'correct');
     const savedScores = localStorage.getItem('completed');
-    // console.log(savedScores);
-    localStorage.setItem('streak',0);
+    console.log(savedScores);
     const current = localStorage.getItem('streak');
     console.log(current);
-</script> 
+    const element = document.getElementById("streak");
+    element.innerHTML = "Current streak: " + current.toString();
+</script>  
 </body>
 
-</html> 
+</html>

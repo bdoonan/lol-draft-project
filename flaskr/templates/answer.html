@@ -1,11 +1,13 @@
 <html>
 {% extends 'base.html' %} 
 {% block content %}
-<h1 align = "center">{{tourney[1]}}</h1>
+<div style="text-align: center">
+<span style="color: white; font-size: 30px;">{{tourney[1]}}</span>
+</div>
 {% endblock %}
 {% block content2 %}
-<form method="post">
-    <div align = "center" class="select">
+<form method="post" id = "game_field">
+    <div class="select">
         <select data-placeholder= "Select a game" name = "game", id = "game", class = "search">
             <option value = ""></option>
             {% for team in listofteams %}
@@ -23,4 +25,73 @@ $(function() {
 </script>
 
 {% endblock %}
+{%block buttons%}
+<div style="text-align: center;">
+    <button id = "bluehint" type='button' onclick="toggleText('{{randomblue}}')">Random Blue Team Player</button>
+
+    <button id = "redhint" style= "display: none;" type='button' onclick="toggleText2('{{randomred}}')">Random Red Team Player</button>
+</div>
+    
+{% endblock %}
+{%block attempts%}
+<div style="text-align: center">
+    <span style="color: white; font-size: 20px; ">
+         Attempts remaining: {{attempts}} 
+    </span>
+</div>
+{% endblock %}
 </html>
+{%block revealAll%}
+<script>
+    let guessnumber = '{{tries}}';
+    console.log(guessnumber);
+    console.log('{{tourney[3]}}')
+    if ('{{tourney[3]}}' == '{{inputteams[0]}}'){
+        bColor = "green";
+    }
+    else if ('{{tourney[2]}}' == '{{inputteams[0]}}'){
+        bColor = "yellow";
+    }
+    else{
+        bColor = "red";
+    }
+    if ('{{tourney[2]}}' == '{{inputteams[1]}}'){
+        rColor = "green";
+    }
+    else if ('{{tourney[3]}}' == '{{inputteams[1]}}'){
+        rColor = "yellow";
+    }
+    else{
+        rColor = "red";
+    }
+    if (sessionStorage.getItem(guessnumber+'y')==null){
+        sessionStorage.setItem(guessnumber+'y',bColor);
+        sessionStorage.setItem(guessnumber+'s',rColor);
+        guessnumber = "guess" + guessnumber;
+        sessionStorage.setItem(guessnumber+'y','{{inputteams[0]}}');
+        sessionStorage.setItem(guessnumber+'t','');
+        sessionStorage.setItem(guessnumber+'s','{{inputteams[1]}}');
+    }
+    
+    console.log(sessionStorage);
+    for (var i = 0; i < sessionStorage.length; i++){
+        if (sessionStorage.key(i).includes("guess")){
+            document.getElementById(sessionStorage.key(i)).innerText = sessionStorage.getItem(sessionStorage.key(i));
+        }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "green"){
+            document.getElementById("guess" + sessionStorage.key(i)).classList.add("same");
+        }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "red"){
+            
+            document.getElementById("guess" + sessionStorage.key(i)).classList.add("notSame");
+        }
+        else{
+            document.getElementById("guess" + sessionStorage.key(i)).classList.add("inbetween");
+        }
+        
+    }
+    
+</script>
+
+
+{% endblock %}
