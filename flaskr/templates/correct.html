@@ -3,105 +3,196 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
 </head>
 <body>
+  
   <section class="content">
     <div style="text-align: center">
         <span style="color: white; font-size: 30px;">{{tourney[1]}} {{tourney[3]}} vs {{tourney[2]}}</span>
-        </div>
+    </div>
     </section>
   <section class="content2">
     <div style="text-align: center">
         <span style="color: white; font-size: 30px;">Congratulations you got the correct answer in {{attempts}} attempt(s)</span>
-        </div>
+    </div>
   </section>
-  </section>
+  
+</section>
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[6])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[7])) }}">
-    <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[8])) }}">
+    <img class = "one" style="margin-right: 20px;"  src ="{{ url_for('static', filename='images/{}.png'.format(blue[8])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[9])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[10])) }}">
     
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[6])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[7])) }}">
-    <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[8])) }}">
+    <img align = "right" style="margin-left: 20px;"class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[8])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[9])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[10])) }}">
+    
     <div style="text-align: center">
         <span id = "streak" style="color: white; font-size: 20px;">Current Streak: </span>
-        </div>
-  
+    </div>
   </section>
+ 
   <section class = "topimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[1]) ) }}">
     
-    {%block attempts%}{% endblock %}
-    <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[1]) ) }}">
+    
+    <img align = "right"src="{{ url_for('static',filename='images/{}.png'.format(red[1]) ) }}">
+    
   </section>
   
-  <h2>
+
+  <section class="guess1">
     
-    <p id="1" style='display: none'>Top: {{blue[11]}}</p>
+    <div style="text-align: center" class ="guess">
+    <span id = "guess1y" style="color: white; font-size: 20px; display: inline;">
+
+    </span> 
+    <span id = "guess1t" style="color: white; font-size: 20px; display: inline;">
+
+    </span> 
+    <span id = "guess1s" style="color: white; font-size: 20px; display: inline;">
+  
+    </span> 
+    </div>
+  </section>
+
+
+  <h2  class = "top">
     
-    <span class = "right" style="color: white;">
-      <p id="6" style='display: none'>Top: {{red[11]}}</p>
-    </span>
-  </h2 class = "top">
+      <span style="color: white;">Top</span>
+      <span id="1" style='display: none; color: white;'>: {{blue[11]}}</span>
+   
     
-  <br><br><section class = "jgimages">
+      <span class = "right" id="6" style='display: none; color: white;'>Top: {{red[11]}}</span>
+    
+  </h2>
+   
+  
+  <section class = "jgimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[2]) ) }}">
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[2]) ) }}">
   </section>
   
+  
+  <section class="guess2">
+    <div style="text-align: center" class ="guess">
+      <span id = "guess2y" style="color: white; font-size: 20px; display: inline;">
+      </span> 
+      <span id = "guess2t" style="color: white; font-size: 20px; display: inline;">
+      
+      </span> 
+      <span id = "guess2s" style="color: white; font-size: 20px; display: inline;">
+    
+      </span> 
+      </div>
+  </section>
+
+
   <h2 class = "jg">
     
-    <p id="2" style='display: none'>Jg: {{blue[12]}}</p>
+      <span style="color: white;">Jg</span>
+      <span id="2" style='display: none; color: white;'>: {{blue[12]}}</span>
+   
     
-    <span class = "right" style="color: white;">
-      <p id="7" style='display: none'>Jg: {{red[12]}}</p>
-    </span>
+      <span class = "right" id="7" style='display: none; color: white;'>Jg: {{red[12]}}</span>
+    
   </h2>
-  <br><br><section class = "midimages">
+
+
+  <section class = "midimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[3]) ) }}">
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[3]) ) }}">
   </section>
   
+  
+  <section class="guess3">
+    <div style="text-align: center" class ="guess">
+      <span id = "guess3y" style="color: white; font-size: 20px; display: inline;">
+
+      </span> 
+      <span id = "guess3t" style="color: white; font-size: 20px; display: inline;">
+      
+      </span> 
+      <span id = "guess3s" style="color: white; font-size: 20px; display: inline;">
+    
+      </span> 
+      </div>
+  </section>
   <h2 class = "mid">
     
-    <p id="3" style='display: none'>Mid: {{blue[13]}}</p>
+      <span style="color: white;">Mid</span>
+      <span id="3" style='display: none; color: white;'>: {{blue[13]}}</span>
     
-    <span class = "right" style="color: white;">
-      <p id="8" style='display: none'>Mid: {{red[13]}}</p>
-    </span>
+      <span class = "right" id="8" style='display: none; color: white;'>Mid: {{red[13]}}</span>
   </h2>
-  <br><br><section class = "adcimages">
+  
+
+  <section class = "adcimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[4]) ) }}">
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[4]) ) }}">
   </section>
   
-    <h2 class = "adc">
-    
-      <p id="4" style='display: none'>Adc: {{blue[14]}}</p>
+  
+  <section class="guess4">
+    <div style="text-align: center" class ="guess"> 
+      <span id = "guess4y" style="color: white; font-size: 20px; display: inline;">
+      </span> 
+      <span id = "guess4t" style="color: white; font-size: 20px; display: inline;">
       
-      <span class = "right" style="color: white;">
-        <p id="9" style='display: none'>Adc: {{red[14]}}</p>
-      </span>
+      </span> 
+      <span id = "guess4s" style="color: white; font-size: 20px; display: inline;">
+    
+      </span> 
+      </div>
+  </section>
+
+
+    <h2 class = "adc">
+     
+        <span style="color: white;">Adc</span>
+        <span id="4" style='display: none; color: white;'>: {{blue[14]}}</span>
+      
+      
+        <span class = "right" id="9" style='display: none; color: white;'>Adc: {{red[14]}}</span>
+      
     </h2>
   
-  <br><br><section class = "supimages">
+
+  <section class = "supimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[5]) ) }}">
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[5]) ) }}">
   </section>
+
+  <section class="guess0">
+    <div style="text-align: center">
+      <span id = "guess0y" style="color: white; font-size: 20px; display: inline;">
+      </span> 
+      <span id = "guess0t" style="color: white; font-size: 20px; display: inline;">
+      
+      </span> 
+      <span id = "guess0s" style="color: white; font-size: 20px; display: inline;">
+    
+      </span> 
+      </div>
+  </section>
+
+
   <h2 class = "sup">
     
-    <p id="5" style='display: none'>Sup: {{blue[15]}}</p>
+      <span style="color: white;">Sup</span>
+      <span id="5" style='display: none; color: white;'>: {{blue[15]}}</span>
     
-    <span class = "right" style="color: white;">
-      <p id="10" style='display: none'>Sup: {{red[15]}}</p>
-    </span>
+    
+      <span class = "right" id="10" style='display: none; color: white;'>Sup: {{red[15]}}</span>
+   
   </h2>
-  <script>
-    window.revealText();
+
+<script>
+ window.revealText();
     // localStorage.removeItem('completed');
     // localStorage.removeItem('streak');
     const check = "{{id}}";
@@ -118,7 +209,9 @@
     console.log(current);
     const element = document.getElementById("streak");
     element.innerHTML = "Current streak: " + current.toString();
-</script>  
+      
+</script>
+
 </body>
 
 </html>

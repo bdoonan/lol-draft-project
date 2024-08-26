@@ -21,15 +21,16 @@
 </section>
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[6])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[7])) }}">
-    <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[8])) }}">
+    <img class = "one" style="margin-right: 20px;"  src ="{{ url_for('static', filename='images/{}.png'.format(blue[8])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[9])) }}">
     <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[10])) }}">
     
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[6])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[7])) }}">
-    <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[8])) }}">
+    <img align = "right" style="margin-left: 20px;"class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[8])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[9])) }}">
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[10])) }}">
+    
     {% block buttons %}{% endblock %}
     {%block attempts%}{% endblock %}
   </section>
@@ -38,19 +39,19 @@
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[1]) ) }}">
     
     
-    <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[1]) ) }}">
+    <img align = "right"src="{{ url_for('static',filename='images/{}.png'.format(red[1]) ) }}">
     
   </section>
   
 
   <section class="guess1">
     
-    <div style="text-align: center">
+    <div style="text-align: center" class ="guess">
     <span id = "guess1y" style="color: white; font-size: 20px; display: inline;">
 
     </span> 
     <span id = "guess1t" style="color: white; font-size: 20px; display: inline;">
-      
+
     </span> 
     <span id = "guess1s" style="color: white; font-size: 20px; display: inline;">
   
@@ -60,23 +61,24 @@
 
 
   <h2  class = "top">
-    <div>
-      <span id="1" style='display: none; color: white;'>Top: {{blue[11]}}</span>
-    </div>
-    <div style="text-align: right;">
-      <span id="6" style='display: none; color: white;'>Top: {{red[11]}}</span>
-    </div>
+    
+      <span style="color: white;">Top</span>
+      <span id="1" style='display: none; color: white;'>: {{blue[11]}}</span>
+   
+    
+      <span class = "right" id="6" style='display: none; color: white;'>Top: {{red[11]}}</span>
+    
   </h2>
    
   
-  <br><section class = "jgimages">
+  <section class = "jgimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[2]) ) }}">
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[2]) ) }}">
   </section>
   
   
   <section class="guess2">
-    <div style="text-align: center">
+    <div style="text-align: center" class ="guess">
       <span id = "guess2y" style="color: white; font-size: 20px; display: inline;">
       </span> 
       <span id = "guess2t" style="color: white; font-size: 20px; display: inline;">
@@ -90,23 +92,24 @@
 
 
   <h2 class = "jg">
-    <div>
-      <span id="2" style='display: none; color: white;'>Jg: {{blue[12]}}</span>
-    </div>
-    <div style="text-align: right;">
-      <span id="7" style='display: none; color: white;'>Jg: {{red[12]}}</span>
-    </div>
+    
+      <span style="color: white;">Jg</span>
+      <span id="2" style='display: none; color: white;'>: {{blue[12]}}</span>
+   
+    
+      <span class = "right" id="7" style='display: none; color: white;'>Jg: {{red[12]}}</span>
+    
   </h2>
 
 
-  <br><section class = "midimages">
+  <section class = "midimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[3]) ) }}">
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[3]) ) }}">
   </section>
   
   
   <section class="guess3">
-    <div style="text-align: center">
+    <div style="text-align: center" class ="guess">
       <span id = "guess3y" style="color: white; font-size: 20px; display: inline;">
 
       </span> 
@@ -119,23 +122,22 @@
       </div>
   </section>
   <h2 class = "mid">
-    <div>
-      <span id="3" style='display: none; color: white;'>Mid: {{blue[13]}}</span>
-    </div>
-    <div style="text-align: right;">
-      <span id="8" style='display: none; color: white;'>Mid: {{red[13]}}</span>
-    </div>
+    
+      <span style="color: white;">Mid</span>
+      <span id="3" style='display: none; color: white;'>: {{blue[13]}}</span>
+    
+      <span class = "right" id="8" style='display: none; color: white;'>Mid: {{red[13]}}</span>
   </h2>
   
 
-  <br><section class = "adcimages">
+  <section class = "adcimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[4]) ) }}">
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[4]) ) }}">
   </section>
   
   
   <section class="guess4">
-    <div style="text-align: center">
+    <div style="text-align: center" class ="guess"> 
       <span id = "guess4y" style="color: white; font-size: 20px; display: inline;">
       </span> 
       <span id = "guess4t" style="color: white; font-size: 20px; display: inline;">
@@ -149,16 +151,17 @@
 
 
     <h2 class = "adc">
-      <div>
-        <span id="4" style='display: none; color: white;'>Adc: {{blue[14]}}</span>
-      </div>
-      <div style="text-align: right;">
-        <span id="9" style='display: none; color: white;'>Adc: {{red[14]}}</span>
-      </div>
+     
+        <span style="color: white;">Adc</span>
+        <span id="4" style='display: none; color: white;'>: {{blue[14]}}</span>
+      
+      
+        <span class = "right" id="9" style='display: none; color: white;'>Adc: {{red[14]}}</span>
+      
     </h2>
   
 
-  <br><section class = "supimages">
+  <section class = "supimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[5]) ) }}">
     <img align = "right" src="{{ url_for('static',filename='images/{}.png'.format(red[5]) ) }}">
   </section>
@@ -178,12 +181,13 @@
 
 
   <h2 class = "sup">
-    <div>
-      <span id="5" style='display: none; color: white;'>Sup: {{blue[15]}}</span>
-    </div>
-    <div style="text-align: right;">
-      <span id="10" style='display: none; color: white;'>Sup: {{red[15]}}</span>
-    </div>
+    
+      <span style="color: white;">Sup</span>
+      <span id="5" style='display: none; color: white;'>: {{blue[15]}}</span>
+    
+    
+      <span class = "right" id="10" style='display: none; color: white;'>Sup: {{red[15]}}</span>
+   
   </h2>
 
 
@@ -203,12 +207,12 @@
     
     const check = localStorage.getItem('done');
     console.log(check);
-    // if (savedScores == 'correct'){
-    //   window.location.href = '/correct';
-    // }
-    // else if (savedScores == "incorrect"){
-    //   window.location.href = '/incorrect';
-    // }
+    if (savedScores == 'correct'){
+      window.location.href = '/correct';
+    }
+    else if (savedScores == "incorrect"){
+      window.location.href = '/incorrect';
+    }
     
     
   }

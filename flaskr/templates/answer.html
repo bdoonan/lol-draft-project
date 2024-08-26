@@ -46,6 +46,7 @@ $(function() {
     let guessnumber = '{{tries}}';
     console.log(guessnumber);
     console.log('{{tourney[3]}}')
+    
     if ('{{tourney[3]}}' == '{{inputteams[0]}}'){
         bColor = "green";
     }
@@ -85,7 +86,13 @@ $(function() {
             
             document.getElementById("guess" + sessionStorage.key(i)).classList.add("notSame");
         }
-        else{
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "bluebutton"){
+            window.toggleText('{{randomblue}}');
+        }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "redbutton") {
+            window.toggleText2('{{randomred}}');
+        }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "yellow"){
             document.getElementById("guess" + sessionStorage.key(i)).classList.add("inbetween");
         }
         

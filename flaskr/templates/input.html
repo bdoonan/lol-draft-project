@@ -43,24 +43,27 @@ $(function() {
     yearBool = "";
     tourneyBool = "";
     seasonBool = "";
-    if ('{{correctyear}}' == '{{inputyear}}'){
+    if ('{{correctyear}}' != ""){
+        if ('{{correctyear}}' == '{{inputyear}}'){
         yearBool = "green";
+        }
+        else{
+            yearBool = "red";
+        }
+        if ('{{correct_league}}' == '{{inputleague}}'){
+            tourneyBool = "green";
+        }
+        else{
+            tourneyBool = "red";
+        }
+        if ('{{correct_season}}' == '{{inputseason}}'){
+            seasonBool = "green";
+        }
+        else{
+            seasonBool = "red";
+        }
     }
-    else{
-        yearBool = "red";
-    }
-    if ('{{correct_league}}' == '{{inputleague}}'){
-        tourneyBool = "green";
-    }
-    else{
-        tourneyBool = "red";
-    }
-    if ('{{correct_season}}' == '{{inputseason}}'){
-        seasonBool = "green";
-    }
-    else{
-        seasonBool = "red";
-    }
+    
   
     console.log(sessionStorage);
     sessionStorage.setItem(guessnumber+'y',yearBool);
@@ -83,7 +86,12 @@ $(function() {
             
             document.getElementById("guess" + sessionStorage.key(i)).classList.add("notSame");
         }
-        
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "bluebutton"){
+            window.toggleText('{{randomblue}}');
+        }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "redbutton"){
+            window.toggleText2('{{randomred}}');
+        }
     }
 </script>
 
