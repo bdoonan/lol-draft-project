@@ -81,19 +81,8 @@ def check():
     if request.method == 'POST':
         #get the selected value from input.html
         tournament = request.form.get('tournament')
-        tournament_items =tournament.split(" ")
-        inputyear = int(tournament_items[0])
-        inputleague = tournament_items[1]
-        correct_items = tourney[1].split(" ")
-        correctyear = int(correct_items[0])
-        correct_league=correct_items[1]
-        if (correct_items[-1] != "Playoffs" and tournament[-1] != "Playoffs"):
-            inputseason = tournament_items[-1]
-            correct_season=correct_items[-1]
-        else:
-            #season = tournament_items[-2]
-            correct_season=correct_items[-2] + ' ' + correct_items[-1]
-            inputseason = tournament_items[-2] + ' ' + tournament_items[-1]
+
+        
             
         
             
@@ -104,18 +93,30 @@ def check():
             error = "Please input a team"
         else:
         #if no error do the check
-            if error is None:
-                #if it is selected correctly redirect to the rendered page in the next function
+                tournament_items =tournament.split(" ")
+                inputyear = int(tournament_items[0])
+                inputleague = tournament_items[1]
+                correct_items = tourney[1].split(" ")
+                correctyear = int(correct_items[0])
+                correct_league=correct_items[1]
+                if (correct_items[-1] != "Playoffs" and tournament[-1] != "Playoffs"):
+                    inputseason = tournament_items[-1]
+                    correct_season=correct_items[-1]
+                else:
+                    #season = tournament_items[-2]
+                    correct_season=correct_items[-2] + ' ' + correct_items[-1]
+                    inputseason = tournament_items[-2] + ' ' + tournament_items[-1]
+                    #if it is selected correctly redirect to the rendered page in the next function
                 if tournament == str(tourney[1]):
-                    return redirect(url_for("answer.check2"))
-                #if it is not correct diplay how many attempts the user has left and add one to the tries variable
+                        return redirect(url_for("answer.check2"))
+                    #if it is not correct diplay how many attempts the user has left and add one to the tries variable
                 else:
                     tries +=1
-                  
-            #if the user used all of their attempts redirect to the incorrect page
-            if tries >= 5:
-                tries = 0
-                return redirect(url_for("answer.incorrect"))
+                    
+                #if the user used all of their attempts redirect to the incorrect page
+                if tries >= 5:
+                    tries = 0
+                    return redirect(url_for("answer.incorrect"))
                 #return render_template('incorrect.html', tourney = tourney, blue = blue, red = red)
     #this is the template used for this function and the variables used for the page
     return render_template('input.html', tourney = tourney, blue = blue, red = red, listoftourney = listoftourney, randomblue = randomblue, randomred = randomred, attempts = 5-tries, id=id, tries = tries, inputyear=inputyear, inputleague=inputleague, inputseason=inputseason, correctyear = correctyear, correct_league=correct_league, correct_season=correct_season)
@@ -127,30 +128,35 @@ def check2():
     if request.method == 'POST':
         #get the selected input from answer.html
         teams = request.form.get('game')
-        inputteams = teams.split(' vs ')
-        #set the redTeam and blueTeam values to the correct teams in the game
-        redTeam = tourney[2]
-        blueTeam = tourney[3]
-        #if the selected input is correct redirect to the correct answer page
-        if teams == blueTeam + " vs " + redTeam:
-            tries=0
-            return redirect(url_for("answer.correct"))
-            #return render_template('correct.html', tourney = tourney, blue = blue, red= red, attempts = tries+1)
-        #if it's not correct display attempts left and add to the tries variable
+        error = None
+        if not teams:
+            error = "Please select game"
         else:
-            error = ("Tries left: " + str(4-tries))
-            flash(error)
-            tries +=1
-        #if the user used all of their attempts redirect to the incorrect page
-        if tries >= 5:
-            tries = 0
-            return redirect(url_for("answer.incorrect"))
+
+            inputteams = teams.split(' vs ')
+            #set the redTeam and blueTeam values to the correct teams in the game
+            redTeam = tourney[2]
+            blueTeam = tourney[3]
+            #if the selected input is correct redirect to the correct answer page
+            if teams == blueTeam + " vs " + redTeam:
+                return redirect(url_for("answer.correct"))
+                #return render_template('correct.html', tourney = tourney, blue = blue, red= red, attempts = tries+1)
+            #if it's not correct display attempts left and add to the tries variable
+            else:
+                error = ("Tries left: " + str(4-tries))
+                flash(error)
+                tries +=1
+            #if the user used all of their attempts redirect to the incorrect page
+            if tries >= 5:
+                tries = 0
+                return redirect(url_for("answer.incorrect"))
             
             #return render_template('incorrect.html', tourney = tourney, blue = blue, red = red)
     #this is the template and variables needed for the page for this function
     return render_template('answer.html', tourney = tourney, blue = blue, red = red, listofteams=listofteams, randomblue = randomblue, randomred = randomred, attempts = 5-tries, inputteams = inputteams, tries = tries)
 @bp.route('/correct')
 def correct():
+    global tries
     return render_template('correct.html', tourney = tourney, blue = blue, red= red, attempts = tries+1, id=id)
 @bp.route('/incorrect')
 def incorrect():

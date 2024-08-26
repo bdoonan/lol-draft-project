@@ -265,7 +265,7 @@ for i in range(2013,2025):
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
         fulltournamentsindex+=1
     elif i<2021:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer_Playoffs"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
         fulltournamentsindex+=1
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i)+ "_Season/Championship/Match_History",str(i) + " LCS Summer Playoffs"]
