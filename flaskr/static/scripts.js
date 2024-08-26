@@ -4,6 +4,7 @@ function toggleText(str) {
       text.style.display = "inline";
       bluehint.style.display = "none";
       redhint.style.display = "inline";
+      sessionStorage.setItem(str,"bluebutton");
     } 
 }
 function toggleText2(str){
@@ -11,6 +12,7 @@ function toggleText2(str){
     if (text.style.display === "none") {
       text.style.display = "inline";
       redhint.style.display = "none";
+      sessionStorage.setItem(str,"redbutton");
     } 
 }
 function revealText(){
@@ -37,3 +39,4 @@ function checkcomplete(str){
     localStorage.setItem('done',str)
   }
 }
+

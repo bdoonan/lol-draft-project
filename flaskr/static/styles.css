@@ -1,5 +1,7 @@
 body{
     background-color: black;
+    background-image: url(images/background.png);
+    background-size: cover;
 }
 h1{
 
@@ -32,26 +34,38 @@ h2 {
 .same{
     width: 110px;
     height: 32px;
-    padding: 10px -10px 10px 10px;
-    border: 5px solid black;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 2px solid white;
     margin: 0;
     background-color: green;
 }
 .notSame{
     width: 110px;
     height: 32px;
-    padding: 10px -10px 10px 10px;
-    border: 5px solid black;
-    margin: 0;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 2px solid white;
     background-color: red;
 }
 .inbetween{
     width: 110px;
     height: 32px;
-    padding: 10px -10px 10px 10px;
-    border: 5px solid black;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 2px solid white;
     margin: 0;
     background-color: #E1AD01;
+}
+.guess{
+    align-items: center;
+    position: fixed;
+    left: 40%;
+    width: 400px;
+    height: 50px;
 }
 
 
