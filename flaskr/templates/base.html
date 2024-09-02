@@ -8,6 +8,7 @@
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
 </head>
 <body>
   
@@ -32,6 +33,11 @@
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[10])) }}">
     
     {% block buttons %}{% endblock %}
+    <div style="text-align: center;">
+      <button id = "bluehint" type='button' onclick="toggleText('{{randomblue}}')">Random Blue Team Player</button>
+  
+      <button id = "redhint" type='button' onclick="toggleText2('{{randomred}}')">Random Red Team Player</button>
+  </div>
     {%block attempts%}{% endblock %}
   </section>
  
@@ -65,9 +71,9 @@
       <span style="color: white;">Top</span>
       <span id="1" style='display: none; color: white;'>: {{blue[11]}}</span>
    
-    
-      <span class = "right" id="6" style='display: none; color: white;'>Top: {{red[11]}}</span>
-    
+      
+      <span class = "right" id="6" style='display: none; color: white;'>: {{red[11]}}</span>
+      <span class = "right" style="color: white;"> Top</span>
   </h2>
    
   
@@ -96,9 +102,9 @@
       <span style="color: white;">Jg</span>
       <span id="2" style='display: none; color: white;'>: {{blue[12]}}</span>
    
-    
-      <span class = "right" id="7" style='display: none; color: white;'>Jg: {{red[12]}}</span>
-    
+      
+      <span class = "right" id="7" style='display: none; color: white;'>: {{red[12]}}</span>
+      <span class = "right" style="color: white;"> Jg</span>
   </h2>
 
 
@@ -125,8 +131,10 @@
     
       <span style="color: white;">Mid</span>
       <span id="3" style='display: none; color: white;'>: {{blue[13]}}</span>
-    
-      <span class = "right" id="8" style='display: none; color: white;'>Mid: {{red[13]}}</span>
+
+      
+      <span class = "right" id="8" style='display: none; color: white;'>: {{red[13]}}</span>
+      <span class = "right" style="color: white;"> Mid</span>
   </h2>
   
 
@@ -155,9 +163,9 @@
         <span style="color: white;">Adc</span>
         <span id="4" style='display: none; color: white;'>: {{blue[14]}}</span>
       
-      
-        <span class = "right" id="9" style='display: none; color: white;'>Adc: {{red[14]}}</span>
-      
+        
+        <span class = "right" id="9" style='display: none; color: white;'>: {{red[14]}}</span>
+        <span class = "right" style="color: white;"> Adc</span>
     </h2>
   
 
@@ -185,37 +193,55 @@
       <span style="color: white;">Sup</span>
       <span id="5" style='display: none; color: white;'>: {{blue[15]}}</span>
     
-    
-      <span class = "right" id="10" style='display: none; color: white;'>Sup: {{red[15]}}</span>
-   
+      
+      <span class = "right" id="10" style='display: none; color: white;'>: {{red[15]}}</span>
+      <span class = "right" style="color: white;"> Sup</span>
   </h2>
 
 
 {% block revealAll %}{% endblock %}
 <script>
+  //clears localStorage when I test site
+  //localStorage.clear();
+  
   if (localStorage){
-    //localStorage.removeItem('completed');
+    //if there is no streak initialize the streak
     if (localStorage.getItem('streak')==null){
       localStorage.setItem('streak',0);
     }
+    //if the user has no data initialize the localstorage data for game stats that will always be there
+    //these variables are total games played, amount of successful attempts, and variables for every number of possible attempts
+    if (localStorage.getItem('numGames')==null){
+      localStorage.setItem('numGames',0);
+      localStorage.setItem('wins',0);
+      localStorage.setItem('attempts1',0);
+      localStorage.setItem('attempts2',0);
+      localStorage.setItem('attempts3',0);
+      localStorage.setItem('attempts4',0);
+      localStorage.setItem('attempts5',0);
+      localStorage.setItem('failures',0);
+
+    }
     const counter = localStorage.getItem('streak');
-    //localStorage.removeItem('streak')
-    //console.log(counter);
+    
+    //check if the user has already played today 
     const id = "{{id}}";
     window.checkcomplete(id);
     const savedScores = localStorage.getItem('completed');
     
     const check = localStorage.getItem('done');
-    console.log(check);
-    if (savedScores == 'correct'){
-      window.location.href = '/correct';
-    }
-    else if (savedScores == "incorrect"){
-      window.location.href = '/incorrect';
-    }
+    console.log(localStorage);
+    //commented out so I can test but on deployed site this automatically redirects to the completed webpages so the user has to wait to play the next day
+    // if (savedScores == 'correct'){
+    //   window.location.href = '/correct';
+    // }
+    // else if (savedScores == "incorrect"){
+    //   window.location.href = '/incorrect';
+    // }
     
     
   }
+  //if browser does not support local storage
   else{
     console.log("not supported");
   }

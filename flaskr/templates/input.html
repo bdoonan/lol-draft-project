@@ -19,14 +19,7 @@ $(function() {
 {% endblock %}
 {%block content2 %}
 {% endblock %}
-{%block buttons%}
-<div style="text-align: center">
-    <button id = "bluehint" type='button' onclick="toggleText('{{randomblue}}')">Random Blue Team Player</button>
 
-    <button id = "redhint" style= "display: none;" type='button' onclick="toggleText2('{{randomred}}')">Random Red Team Player</button>
-</div>
-    
-{% endblock %}
 {%block attempts%}
 <div style="text-align: center" >
     <span style="color: white; font-size: 20px;">
@@ -65,7 +58,7 @@ $(function() {
     }
     
   
-    console.log(sessionStorage);
+    //console.log(sessionStorage);
     sessionStorage.setItem(guessnumber+'y',yearBool);
     sessionStorage.setItem(guessnumber+'t',tourneyBool);
     sessionStorage.setItem(guessnumber+'s',seasonBool);

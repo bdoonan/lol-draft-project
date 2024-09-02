@@ -20,12 +20,24 @@ global inputyear
 global inputleague
 global inputseason
 global inputteams
-
+checkid = cur.execute(
+            'SELECT * from checkid'
+            ).fetchone()
 #select all and then randomly select a number from 0 to the max id in the table to get a random game and sets the id variable equal to that random number
 entries = cur.execute(
             'SELECT * from game'
             ).fetchall()
 id = random.randint(0,len(entries)-1)
+while id == checkid:
+    id = random.randint(0,len(entries)-1)
+cur.execute(
+    'DELETE FROM checkid'
+)
+conn.commit()
+cur.execute(
+    'INSERT INTO checkid(id) VALUES (?)', (id,)
+)
+conn.commit()
 #get the values for the game table at the random id
 tourney = cur.execute(
             'SELECT * from game WHERE id = ?', (id,)

@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
 <body>
   
@@ -28,7 +28,15 @@
     <img align = "right" class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(red[10])) }}">
     
   </section>
- 
+  <div style="text-align: center">
+    <span id = "winratio" style="color: white; font-size: 20px;">Win rate: </span>
+</div>
+
+
+<section class ="guess">
+  <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+</section>
+
   <section class = "topimages">
     <img src="{{ url_for('static',filename='images/{}.png'.format(blue[1]) ) }}">
     
@@ -185,17 +193,64 @@
   </h2>
 
 <script>
-
+//reveals all player names
 window.revealText();
-    //const id = "{{id}}";
-    //window.checkcomplete(id);
-localStorage.setItem('completed', 'incorrect');
-const savedScores = localStorage.getItem('completed');
-    // console.log(savedScores);
+    
+
+
+
+//resets streak to 0 as the user got the incorrect answer
 localStorage.setItem('streak',0);
-const current = localStorage.getItem('streak');
-console.log(current);
-      
+
+// //used in testing
+// localStorage.removeItem('completed');
+
+
+//increments on games but not wins since they got it incorrect
+var gamecounter = localStorage.getItem('numGames');
+var wincounter = localStorage.getItem('wins');
+var wrong = localStorage.getItem('failures');
+if (localStorage.getItem('completed') == null){
+    localStorage.setItem('numGames', ++gamecounter);
+    localStorage.setItem('failures', ++wrong);      
+}
+//set completed as incorrect to redirect here if user refreshes or goes back to site until site refreshes
+localStorage.setItem('completed', 'incorrect');
+console.log(localStorage);
+//sets the win rate html
+document.getElementById("winratio").innerHTML = "Current win rate: " +  wincounter +"/" + gamecounter + "(" + wincounter/gamecounter*100 + "%)";    
+
+//set values equal to attempt numbers to display in bar graph
+attempts1 = localStorage.getItem('attempts1');
+attempts2 = localStorage.getItem('attempts2');
+attempts3 = localStorage.getItem('attempts3');
+attempts4 = localStorage.getItem('attempts4');
+attempts5 = localStorage.getItem('attempts5');
+var failures = localStorage.getItem('failures');
+
+//bar graph for attempts
+Chart.defaults.global.defaultFontColor = "#fff";
+var xValues = ["1", "2", "3", "4", "5", "X"];
+var yValues = [attempts1 , attempts2, attempts3, attempts4, attempts5, failures];
+var barColors = ["green", "green","green","green","green", "red"];
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Attempt history"
+    }
+  }
+});    
 </script>
 
 </body>
