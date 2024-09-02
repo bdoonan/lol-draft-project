@@ -1,12 +1,13 @@
+//function for blue team hint button that makes the button invisible after click and the hint visible
 function toggleText(str) {
     var text = document.getElementById(str);
     if (text.style.display === "none") {
       text.style.display = "inline";
       bluehint.style.display = "none";
-      redhint.style.display = "inline";
       sessionStorage.setItem(str,"bluebutton");
     } 
 }
+//function for red team hint button that makes the button invisible after click and the hint visible
 function toggleText2(str){
     var text = document.getElementById(str);
     if (text.style.display === "none") {
