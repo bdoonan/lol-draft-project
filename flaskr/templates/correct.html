@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
 <body>
   
@@ -34,6 +34,14 @@
     <div style="text-align: center">
         <span id = "streak" style="color: white; font-size: 20px;">Current Streak: </span>
     </div>
+    <div style="text-align: center">
+      <span id = "winratio" style="color: white; font-size: 20px;">Win rate: </span>
+  </div>
+
+  <section class ="guess">
+    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+  </section>
+  
   </section>
  
   <section class = "topimages">
@@ -179,6 +187,7 @@
       </span> 
       </div>
   </section>
+ 
 
 
   <h2 class = "sup">
@@ -192,24 +201,65 @@
   </h2>
 
 <script>
- window.revealText();
-    // localStorage.removeItem('completed');
-    // localStorage.removeItem('streak');
-    const check = "{{id}}";
-    localStorage.setItem('done', check);
-    var counter = localStorage.getItem('streak');
-    if (localStorage.getItem('completed') == null){
-        localStorage.setItem('streak', ++counter);
+  //reveals all player names
+window.revealText();
+//sets the attempt as completed
+const check = "{{id}}";
+localStorage.setItem('done', check);
+
+//increments on winstreak, games, and wins since the user got the correct answer
+var counter = localStorage.getItem('streak');
+var gamecounter = localStorage.getItem('numGames');
+var wincounter = localStorage.getItem('wins');
+var attempts = localStorage.getItem('attempts'+'{{attempts}}')
+
+if (localStorage.getItem('completed') == null){
+    localStorage.setItem('streak', ++counter);
+    localStorage.setItem('numGames', ++gamecounter);
+    localStorage.setItem('wins', ++wincounter);
+    localStorage.setItem('attempts'+'{{attempts}}',++attempts);
         
+}
+//sets the completed as correct to make sure when refreshed it redirects back to this page
+localStorage.setItem('completed', 'correct');
+console.log(localStorage);
+//set the html for the streak and winrates
+const element = document.getElementById("streak");
+element.innerHTML = "Current streak: " + counter.toString();
+document.getElementById("winratio").innerHTML = "Current win rate: " +  wincounter +"/" + gamecounter + "(" + wincounter/gamecounter*100 + "%)";
+
+//set values equal to attempt numbers to display in bar graph
+attempts1 = localStorage.getItem('attempts1');
+attempts2 = localStorage.getItem('attempts2');
+attempts3 = localStorage.getItem('attempts3');
+attempts4 = localStorage.getItem('attempts4');
+attempts5 = localStorage.getItem('attempts5');
+failures = localStorage.getItem('failures');
+console.log(attempts1);
+
+//bar graph for attempts
+Chart.defaults.global.defaultFontColor = "#fff";
+var xValues = ["1", "2", "3", "4", "5", "X"];
+var yValues = [attempts1 , attempts2, attempts3, attempts4, attempts5, failures];
+var barColors = ["green", "green","green","green","green", "red"];
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Attempt history"
     }
-    localStorage.setItem('completed', 'correct');
-    const savedScores = localStorage.getItem('completed');
-    console.log(savedScores);
-    const current = localStorage.getItem('streak');
-    console.log(current);
-    const element = document.getElementById("streak");
-    element.innerHTML = "Current streak: " + current.toString();
-      
+  }
+});      
 </script>
 
 </body>
