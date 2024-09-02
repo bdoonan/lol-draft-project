@@ -12,7 +12,7 @@ def makemaps(url, playermap, picksandbans, squads):
     index = -1
     fullgame = soup.find_all('tr', class_ = ["mhgame-blue multirow-highlighter", "mhgame-red multirow-highlighter" ])
     for full in fullgame:
-        players =full.find_all('a', class_ = ["catlink-players pWAG pWAN to_hasTooltip","mw-redirect to_hasTooltip","catlink-players pWAN to_hasTooltip","catlink-players pWAG to_hasTooltip"])
+        players =full.find_all('a', class_ = ["catlink-players pWAG", "catlink-players pWAN", "mw-redirect", "catlink-players pWAG pWAN","catlink-players pWAG pWAN to_hasTooltip","mw-redirect to_hasTooltip","catlink-players pWAN to_hasTooltip","catlink-players pWAG to_hasTooltip"])
         for i in range(len(players)):
             if i%5==0:
                 index+=1
@@ -47,6 +47,8 @@ def makemaps(url, playermap, picksandbans, squads):
     index2 = 0
     for i in teams:
         team = (i.find_all('a', class_="to_hasTooltip"))
+        if not team:
+            team = (i.find_all('a'))
         #make sure the component is not empty as there are some in the html file
         if len(team)>0:
             #get rid of the patch objects
@@ -91,6 +93,7 @@ def makedb(tournament, playermap, picksandbans, squads, index, index2):
     for i in range(len(squads)):
         #gameid = i
         tournament = tournament
+        #print(tournament)
         red = squads[i][1]
         blue = squads[i][0]
         cur.execute('''
@@ -109,6 +112,7 @@ def makedb(tournament, playermap, picksandbans, squads, index, index2):
         index+=1
     #now we loop through the champions using the mod rule discussed earlier
     for i in range(len(playermap)):
+        #print (playermap[i])
         if i%2==0:
             topplayer = playermap[i][0]
             jgplayer = playermap[i][1]
@@ -223,6 +227,9 @@ for i in range(2013,2025):
     elif i<2019:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
         fulltournamentsindex+=1
+    elif i == 2021:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Mid-Season_Showdown/Match_History",str(i) + " LCS Spring Playoffs"]
+        fulltournamentsindex+=1
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
         fulltournamentsindex+=1
@@ -247,6 +254,7 @@ for i in range(2013,2025):
     if i>2014:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LPL Spring Playoffs"]
         fulltournamentsindex+=1
+    
     #MSIs
     if 2016<i<2020:    
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Mid-Season_Invitational/Main_Event/Match_History",str(i) + " MSI"]
@@ -302,8 +310,20 @@ for i in range(2013,2025):
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_World_Championship/Match_History",str(i) + " Worlds"]
         fulltournamentsindex+=1
+
+
 #This calls the functions for all of the tournaments
 for i in fulltournaments:
     #print (fulltournaments[i][0])
     counter, counter2 = popdata(fulltournaments[i][0], fulltournaments[i][1], counter, counter2)
+
+# url = 'https://lol.fandom.com/wiki/2017_Season_World_Championship/Main_Event/Match_History'
+# picksandbans = {}
+# squads = {}
+# playermap ={}
+# tournament = '2017 MSI'
+# makemaps(url, playermap, picksandbans, squads)
+# makedb(tournament, playermap, picksandbans, squads, counter, counter2)
 print("Databases populated")
+
+
