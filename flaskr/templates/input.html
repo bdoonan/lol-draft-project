@@ -38,10 +38,13 @@ $(function() {
     seasonBool = "";
     if ('{{correctyear}}' != ""){
         if ('{{correctyear}}' == '{{inputyear}}'){
-        yearBool = "green";
+            yearBool = "green";
+        }
+        else if (Number('{{correctyear}}') < Number('{{inputyear}}')){
+            yearBool = "lower";
         }
         else{
-            yearBool = "red";
+            yearBool = "higher";
         }
         if ('{{correct_league}}' == '{{inputleague}}'){
             tourneyBool = "green";
@@ -78,6 +81,14 @@ $(function() {
         else if (sessionStorage.getItem(sessionStorage.key(i)) == "red"){
             
             document.getElementById("guess" + sessionStorage.key(i)).classList.add("notSame");
+        }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "lower"){
+            
+            document.getElementById("guess" + sessionStorage.key(i)).classList.add("lower");
+        }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "higher"){
+            
+            document.getElementById("guess" + sessionStorage.key(i)).classList.add("higher");
         }
         else if (sessionStorage.getItem(sessionStorage.key(i)) == "bluebutton"){
             window.toggleText('{{randomblue}}');
