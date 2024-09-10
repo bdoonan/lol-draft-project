@@ -6,5 +6,6 @@ the user's team inputs, either marked green for correct, yellow if correct team 
 
 **Update: 9/02/2024**
 I added an attempt history graph using Chart.js. This would display a bar graph at the end screen for the user to view their attempt history by using new attempt variables in local storage. I also had to update the scraper file as some html was changed on leaguepedia which is where I get the match information. I also added a new SQL table called checkid which is used in case the random id is the same two days in a row. This would cause all users to be locked out another day because the id changing is what resets the game every day. In the future I could use this to ensure a different match is called every single time, but for now I feel repeats eventually are ok.
+
 **Update: 9/09/2024**
 Added higher lower classes for guessed years so users can more easily guess the tournament. Also added more tournaments to the scraper file and the database.
