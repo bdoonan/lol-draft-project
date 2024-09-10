@@ -226,7 +226,7 @@ console.log(localStorage);
 //set the html for the streak and winrates
 const element = document.getElementById("streak");
 element.innerHTML = "Current streak: " + counter.toString();
-document.getElementById("winratio").innerHTML = "Current win rate: " +  wincounter +"/" + gamecounter + "(" + wincounter/gamecounter*100 + "%)";
+document.getElementById("winratio").innerHTML = "Current win rate: " +  wincounter +"/" + gamecounter + "(" + (wincounter/gamecounter*100).toFixed(2) + "%)";
 
 //set values equal to attempt numbers to display in bar graph
 attempts1 = localStorage.getItem('attempts1');

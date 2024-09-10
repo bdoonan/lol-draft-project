@@ -20,6 +20,7 @@ global inputyear
 global inputleague
 global inputseason
 global inputteams
+#check the table to see if this id was used last game
 checkid = cur.execute(
             'SELECT * from checkid'
             ).fetchone()
@@ -28,12 +29,15 @@ entries = cur.execute(
             'SELECT * from game'
             ).fetchall()
 id = random.randint(0,len(entries)-1)
-while id == checkid:
+#if the current id is in the already played id then randomize the current id until it is a new value
+while str(id) == str(checkid[0]):
     id = random.randint(0,len(entries)-1)
+#delete the old id from the table since it can be played again, maybe in the future i keep many records until a certain amount of times
 cur.execute(
     'DELETE FROM checkid'
 )
 conn.commit()
+#insert the current id into the checkid table for the next time the app runs
 cur.execute(
     'INSERT INTO checkid(id) VALUES (?)', (id,)
 )
@@ -111,13 +115,14 @@ def check():
                 correct_items = tourney[1].split(" ")
                 correctyear = int(correct_items[0])
                 correct_league=correct_items[1]
-                if (correct_items[-1] != "Playoffs" and tournament[-1] != "Playoffs"):
+                #this si used to set the seasons as the last 2 elements in the split list so the element is either 'spring playoffs' or 'summer playoffs'
+                #if the user input or the correct answer is not one of these and is instead worlds or msi then we set it equal to the last element in the split list
+                inputseason = tournament_items[-2] + ' ' + tournament_items[-1]
+                correct_season=correct_items[-2] + ' ' + correct_items[-1]
+                if (tournament_items[-1] == 'MSI' or tournament_items[-1] == "Worlds"):
                     inputseason = tournament_items[-1]
+                if (correct_items[-1] == 'MSI' or correct_items[-1] == "Worlds"):
                     correct_season=correct_items[-1]
-                else:
-                    #season = tournament_items[-2]
-                    correct_season=correct_items[-2] + ' ' + correct_items[-1]
-                    inputseason = tournament_items[-2] + ' ' + tournament_items[-1]
                     #if it is selected correctly redirect to the rendered page in the next function
                 if tournament == str(tourney[1]):
                         return redirect(url_for("answer.check2"))

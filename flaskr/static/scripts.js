@@ -16,6 +16,7 @@ function toggleText2(str){
       sessionStorage.setItem(str,"redbutton");
     } 
 }
+//function to reveal all player names after completition
 function revealText(){
     for (let i = 1; i < 11; i++) {
         let num = i.toString();
@@ -24,14 +25,8 @@ function revealText(){
     }
     
 }
-function higherLower(str){
-  if (str=="higher"){
-    document.getElementById("higher").style.display == "inline";
-  }
-  else if ("int==lower"){
-    document.getElementById("lower").style.display == "inline";
-  }
-  }
+//function to check if the user has completed a run for the particular id, if not it removes the localstorage as ids can be evenutally repeated and sets the value to the current id so the user
+//cannout refresh to play again that day
 function checkcomplete(str){
   const done = localStorage.getItem('done');
   if (done != str){

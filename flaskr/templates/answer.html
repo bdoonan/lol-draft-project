@@ -79,6 +79,14 @@ $(function() {
             
             document.getElementById("guess" + sessionStorage.key(i)).classList.add("notSame");
         }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "lower"){
+            
+            document.getElementById("guess" + sessionStorage.key(i)).classList.add("lower");
+        }
+        else if (sessionStorage.getItem(sessionStorage.key(i)) == "higher"){
+            
+            document.getElementById("guess" + sessionStorage.key(i)).classList.add("higher");
+        }
         else if (sessionStorage.getItem(sessionStorage.key(i)) == "bluebutton"){
             window.toggleText('{{randomblue}}');
         }

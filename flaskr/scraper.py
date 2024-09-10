@@ -216,8 +216,18 @@ fulltournamentsindex = 0
 
 for i in range(2013,2025):
     #Winter playoffs
+    #LEC
     if i>2022:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Winter_Playoffs/Match_History",str(i) + " LEC Winter Playoffs"]
+        fulltournamentsindex+=1
+    #OGN since this is only 2 and are special queries to remove regular season games we will do two individual if statements for all three splits in 2013 and 2014
+    fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Winter_Playoffs/Match_History",str(i) + " LEC Winter Playoffs"]
+    fulltournamentsindex+=1
+    if i == 2013:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Winter&MHG%5Bstartdate%5D=2012-12-25&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Winter Playoffs"]
+        fulltournamentsindex+=1
+    if i == 2014:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Winter&MHG%5Bstartdate%5D=2013-12-25&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Winter Playoffs"]
         fulltournamentsindex+=1
     #Spring playoffs
     #LCS
@@ -243,17 +253,22 @@ for i in range(2013,2025):
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LEC Spring Playoffs"]
         fulltournamentsindex+=1
-    #LCK
-    if i<2016:
+    #OGN/LCK
+    if i == 2013:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Spring&MHG%5Bstartdate%5D=2013-05-08&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Spring Playoffs"]
+        fulltournamentsindex+=1
+    elif i == 2014:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Spring&MHG%5Bstartdate%5D=2014-04-16&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Spring Playoffs"]
+        fulltournamentsindex+=1
+    elif i<2016:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Champions/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LCK Spring Playoffs"]
         fulltournamentsindex+=1
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LCK Spring Playoffs"]
         fulltournamentsindex+=1
     #LPL
-    if i>2014:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LPL Spring Playoffs"]
-        fulltournamentsindex+=1
+    fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LPL Spring Playoffs"]
+    fulltournamentsindex+=1
     
     #MSIs
     if 2016<i<2020:    
@@ -264,8 +279,9 @@ for i in range(2013,2025):
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Mid-Season_Invitational/Match_History",str(i) + " MSI"]
         fulltournamentsindex+=1
     
+    
     #Summer playoffs
-        #LCS
+    #LCS
     if i==2013:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
         fulltournamentsindex+=1
@@ -288,18 +304,24 @@ for i in range(2013,2025):
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LEC Summer Playoffs"]
         fulltournamentsindex+=1
-    #LCK
-    if i<2016:
+    #LCK/OGN
+    if i == 2013:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Summer&MHG%5Bstartdate%5D=2013-08-07&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Summer Playoffs"]
+        fulltournamentsindex+=1
+    elif i == 2014:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Summer&MHG%5Bstartdate%5D=2014-07-16&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Summer Playoffs"]
+        fulltournamentsindex+=1
+    elif i<2016:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Champions/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCK Summer Playoffs"]
         fulltournamentsindex+=1
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCK Summer Playoffs"]
         fulltournamentsindex+=1
-    
     #LPL
-    if i>2014:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LPL Summer Playoffs"]
-        fulltournamentsindex+=1
+    fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LPL Summer Playoffs"]
+    fulltournamentsindex+=1
+    
+
     #Worlds
     if i<2014:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Season_" + str(i%10) +"_World_Championship/Match_History",str(i) + " Worlds"]
@@ -310,6 +332,40 @@ for i in range(2013,2025):
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_World_Championship/Match_History",str(i) + " Worlds"]
         fulltournamentsindex+=1
+    
+    #LEC Season Finals
+    fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Season_Finals/Match_History",str(i) + " LEC Season Finals"]
+    fulltournamentsindex+=1
+    
+    #Regional Finals
+    #LCS
+    if i < 2019:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LCS Regional Finals"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LCS Regional Finals"]
+        fulltournamentsindex+=1
+    #LEC
+    if i<2019:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LEC Regional Finals"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LEC Regional Finals"]
+        fulltournamentsindex+=1
+    #LPL
+    fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LPL Regional Finals"]
+    fulltournamentsindex+=1
+    #LCK
+    if i == 2013:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Season_" + str(i%10) +"_Korea_Regional_Finals/Match_History",str(i) + " OGN Regional Finals"]
+        fulltournamentsindex+=1
+    elif i < 2016:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_Korea_Regional_Finals/Match_History",str(i) + " OGN Regional Finals"]
+        fulltournamentsindex+=1
+    else:
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LCK Regional Finals"]
+        fulltournamentsindex+=1
+    
 
 
 #This calls the functions for all of the tournaments
