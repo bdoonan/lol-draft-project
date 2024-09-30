@@ -1,5 +1,5 @@
 import os
-
+import random
 from flask import Flask
 
 def create_app(test_config=None):
@@ -17,7 +17,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
     from . import answer
     app.register_blueprint(answer.bp)
     app.add_url_rule('/', endpoint='input')

@@ -1,12 +1,15 @@
 from bs4 import BeautifulSoup
 import requests
 import sqlite3
+import os
+import urllib.request 
 #Only run this file once to make the databases
 
 def makemaps(url, playermap, picksandbans, squads):   
     response = requests.get(url)
     data = response.text
-
+    #path to save team images to
+    image_path = "flaskr/static/images/teams/"
     # Parse the HTML content
     soup = BeautifulSoup(data, 'html.parser')
     index = -1
@@ -31,9 +34,14 @@ def makemaps(url, playermap, picksandbans, squads):
         if len(champs)>=1:
             for i in range(len(champs)):
                 value = champs[i]['title']
-                value = str(value).lower()
+                value = str(value)
                 value = value.replace(" ", "")
-                value = value.replace("'", "")
+                if value == "K'Sante":
+                    value = "KSante"
+                elif "'" in value:
+                    value = value.replace("'", "")
+                    value = value.lower()
+                    value = value.capitalize()
                 value = value.replace(".","")
                 if i ==0:
                     picksandbans[index] = [value]
@@ -46,11 +54,23 @@ def makemaps(url, playermap, picksandbans, squads):
     index = 0
     index2 = 0
     for i in teams:
+        images = i.find_all('img')
         team = (i.find_all('a', class_="to_hasTooltip"))
         if not team:
             team = (i.find_all('a'))
         #make sure the component is not empty as there are some in the html file
         if len(team)>0:
+            #download team images if the team image file does not exist
+            if len(images)>0:
+               if not os.path.isfile(image_path+team[0]['title']+'.png'):
+                   if 'https' in images[0]['src']:
+                       urllib.request.urlretrieve(images[0]['src'],image_path+team[0]['title']+'.png')
+                       
+                   else:
+                       urllib.request.urlretrieve(images[0]['data-src'],image_path+team[0]['title']+'.png')
+                       
+                    
+                   
             #get rid of the patch objects
             if not "Patch" in team[0]['title']:
                 value = team[0]['title']
@@ -360,7 +380,7 @@ for i in range(2013,2025):
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Season_" + str(i%10) +"_Korea_Regional_Finals/Match_History",str(i) + " OGN Regional Finals"]
         fulltournamentsindex+=1
     elif i < 2016:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_Korea_Regional_Finals/Match_History",str(i) + " OGN Regional Finals"]
+        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_Korea_Regional_Finals/Match_History",str(i) + " LCK Regional Finals"]
         fulltournamentsindex+=1
     else:
         fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LCK Regional Finals"]
