@@ -1,9 +1,7 @@
 <html>
 {% extends 'base.html' %} 
 {% block content %}
-<div style="text-align: center">
-<span style="color: white; font-size: 30px;">{{tourney[1]}}</span>
-</div>
+<span class="tourney">{{tourney[1]}}</span>
 {% endblock %}
 {% block content2 %}
 <form method="post" id = "game_field">
@@ -27,11 +25,9 @@ $(function() {
 {% endblock %}
 
 {%block attempts%}
-<div style="text-align: center">
-    <span style="color: white; font-size: 20px; ">
-         Attempts remaining: {{attempts}} 
-    </span>
-</div>
+<span style="color: white; font-size: 20px; ">
+        Attempts remaining: {{attempts}} 
+</span>
 {% endblock %}
 </html>
 {%block revealAll%}
@@ -58,7 +54,7 @@ $(function() {
     else{
         rColor = "red";
     }
-    if (sessionStorage.getItem(guessnumber+'y')==null){
+    if ('{{inputteams[0]}}'!=""){
         sessionStorage.setItem(guessnumber+'y',bColor);
         sessionStorage.setItem(guessnumber+'s',rColor);
         guessnumber = "guess" + guessnumber;
