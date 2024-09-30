@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+<span class="tourney" style="color: white; font-size: 30px;">?</span>
+
+{% endblock %}
+{%block content2 %}
 <form method="post" id = "tournament_field">
     <div class="select" >
         <select data-placeholder= "Select a tournament" name = "tournament", id = "tournament", class = "search", style = "width: 200px;">
@@ -10,22 +14,18 @@
         </select>
         <button type="submit" class="btn btn-default">Submit</button>
     </div>
-</form>    
+</form> 
 <script type="text/javascript">
-$(function() {
-    $(".search").chosen();
-});
-</script>
-{% endblock %}
-{%block content2 %}
+    $(function() {
+        $(".search").chosen();
+    });
+    </script>   
 {% endblock %}
 
 {%block attempts%}
-<div style="text-align: center" >
-    <span style="color: white; font-size: 20px;">
-         Attempts remaining: {{attempts}} 
-    </span>
-</div>
+<span style="color: white; font-size: 20px;">
+        Attempts remaining: {{attempts}} 
+</span>
 
 {% endblock %}
 {%block revealAll%}
@@ -61,15 +61,18 @@ $(function() {
     }
     
   
-    //console.log(sessionStorage);
-    sessionStorage.setItem(guessnumber+'y',yearBool);
-    sessionStorage.setItem(guessnumber+'t',tourneyBool);
-    sessionStorage.setItem(guessnumber+'s',seasonBool);
-    guessnumber = 'guess'+guessnumber;
+    console.log(sessionStorage);
+    if (yearBool != ""){
+        sessionStorage.setItem(guessnumber+'y',yearBool);
+        sessionStorage.setItem(guessnumber+'t',tourneyBool);
+        sessionStorage.setItem(guessnumber+'s',seasonBool);
+        guessnumber = 'guess'+guessnumber;
    
-    sessionStorage.setItem(guessnumber+'y','{{inputyear}}');
-    sessionStorage.setItem(guessnumber+'t','{{inputleague}}');
-    sessionStorage.setItem(guessnumber+'s','{{inputseason}}');
+        sessionStorage.setItem(guessnumber+'y','{{inputyear}}');
+        sessionStorage.setItem(guessnumber+'t','{{inputleague}}');
+        sessionStorage.setItem(guessnumber+'s','{{inputseason}}');
+
+    }
  
     for (var i = 0; i < sessionStorage.length; i++){
         if (sessionStorage.key(i).includes("guess")){
