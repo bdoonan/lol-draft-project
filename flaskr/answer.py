@@ -1,6 +1,6 @@
 import random
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for, g
+    Blueprint, redirect, render_template, request, url_for, session
 )
 #we need to access the database to generate the question and get the answer values
 import sqlite3
@@ -10,15 +10,6 @@ bp = Blueprint('answer', __name__)
 conn = sqlite3.connect("test.db")
 cur = conn.cursor()
 #set tries variable so that user is given incorrect answer when it equals 5
-global tries
-
-global correctyear
-global correct_league
-global correct_season
-global inputyear
-global inputleague
-global inputseason
-global inputteams
 #check the table to see if this id was used last game
 checkid = cur.execute(
             'SELECT * from checkid'
@@ -94,6 +85,8 @@ def check():
     inputyear=""
     inputleague=""
     inputseason =""
+    if 'tries' not in session:
+        session['tries'] = 0
     if request.method == 'POST':
         #get the selected value from input.html
         tournament = request.form.get('tournament')
@@ -118,14 +111,14 @@ def check():
                 return redirect(url_for("answer.check2"))
             #if it is not correct diplay how many attempts the user has left and add one to the tries variable
             else:
-                tries +=1   
-            #if the user used all of their attempts redirect to the incorrect page
-            if tries >= 5:
-                tries = 0
-                return redirect(url_for("answer.incorrect"))
+               
+                session['tries'] += 1  # Increment tries
+                if session['tries'] >= 5:
+                    session.pop('tries', None)  # Reset tries on game over
+                    return redirect(url_for("answer.incorrect"))
             #return render_template('incorrect.html', tourney = tourney, blue = blue, red = red)
 #this is the template used for this function and the variables used for the page
-    return render_template('input.html', tourney = tourney, blue = blue, red = red, listoftourney = listoftourney, randomblue = randomblue, randomred = randomred, attempts = 5-tries, id=id, tries = tries, inputyear=inputyear, inputleague=inputleague, inputseason=inputseason, correctyear = correctyear, correct_league=correct_league, correct_season=correct_season)
+    return render_template('input.html', tourney = tourney, blue = blue, red = red, listoftourney = listoftourney, randomblue = randomblue, randomred = randomred, attempts = 5-session['tries'], id=id, tries = session['tries'], inputyear=inputyear, inputleague=inputleague, inputseason=inputseason, correctyear = correctyear, correct_league=correct_league, correct_season=correct_season)
 @bp.route('/answer.html', methods=('GET','POST'))
 def check2():
     global tries
@@ -145,19 +138,20 @@ def check2():
                 #return render_template('correct.html', tourney = tourney, blue = blue, red= red, attempts = tries+1)
             #if it's not correct display attempts left and add to the tries variable
             else:
-                tries +=1
-            #if the user used all of their attempts redirect to the incorrect page
-            if tries >= 5:
-                tries = 0
-                return redirect(url_for("answer.incorrect"))
+                
+                session['tries'] += 1  # Increment tries
+                if session['tries'] >= 5:
+                    session.pop('tries', None)  # Reset tries on game over
+                    return redirect(url_for("answer.incorrect"))
             
             #return render_template('incorrect.html', tourney = tourney, blue = blue, red = red)
     #this is the template and variables needed for the page for this function
-    return render_template('answer.html', tourney = tourney, blue = blue, red = red, listofteams=listofteams, randomblue = randomblue, randomred = randomred, attempts = 5-tries, inputteams = inputteams, tries = tries)
+    return render_template('answer.html', tourney = tourney, blue = blue, red = red, listofteams=listofteams, randomblue = randomblue, randomred = randomred, attempts = 5-session['tries'], inputteams = inputteams, tries = session['tries'])
 @bp.route('/correct')
 def correct():
-    global tries
-    return render_template('correct.html', tourney = tourney, blue = blue, red= red, attempts = tries+1, id=id)
+    tries = session['tries']
+    session.pop('tries', None)#rest tries for next time playing
+    return render_template('correct.html', tourney = tourney, blue = blue, red= red, attempts=tries+1, id=id)
 @bp.route('/incorrect')
 def incorrect():
     return render_template('incorrect.html', tourney = tourney, blue = blue, red = red, id=id)
