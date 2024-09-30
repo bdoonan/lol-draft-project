@@ -9,3 +9,6 @@ I added an attempt history graph using Chart.js. This would display a bar graph 
 
 **Update: 9/09/2024**
 Added higher lower classes for guessed years so users can more easily guess the tournament. Also added more tournaments to the scraper file and the database.
+
+**Update: 9/30/2024**
+Revamped site design and uploaded new images for champion picks using riot's Data Dragon site's resources. Improved the format and readability of the html pages by using flex containers. 
