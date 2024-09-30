@@ -7,17 +7,33 @@ h1{
     color: white;
     
 }
-span{
-    color: white;
-    background-color: black;
-}
+
 .right{
-    float:right;
+    position: absolute;
+    align-self: right;
+    top: 90px;
+    left: 50px;
+}
+.left{
+    position: absolute;
+    align-self: left;
+    top: 90px;
+    left: 15px;
+    
 }
 img.one {
     height: 60px;
     width: 60px;
+    float:left;
+    border: 2px solid cyan;
 }
+img.two {
+    height: 60px;
+    width: 60px;
+    float:right;
+    border: 2px solid red;
+}
+
 div{
     color: white;
 
@@ -33,6 +49,7 @@ h2 {
     text-align: center;
 }
 .same{
+    
     width: 110px;
     height: 32px;
     padding-bottom: 30px;
@@ -49,7 +66,7 @@ h2 {
     padding-left: 10px;
     padding-right: 10px;
     border: 2px solid white;
-    background-color: red;
+    background-color: #880808;
 }
 .lower{
     width: 110px;
@@ -58,7 +75,7 @@ h2 {
     padding-left: 10px;
     padding-right: 10px;
     border: 2px solid white;
-    background-color: red;
+    background-color: #880808;
     background-size: 50px;
     background-repeat: no-repeat;
     background-position: center;
@@ -71,7 +88,7 @@ h2 {
     padding-left: 10px;
     padding-right: 10px;
     border: 2px solid white;
-    background-color: red;
+    background-color: #880808;
     background-size: 50px;
     background-repeat: no-repeat;
     background-position: center;
@@ -86,14 +103,116 @@ h2 {
     padding-right: 10px;
     border: 2px solid white;
     margin: 0;
-    background-color: #E1AD01;
+    background-color: #FFAA33;
 }
 .guess{
-    align-items: center;
-    position: fixed;
+    position: absolute;
     left: 40%;
     width: 400px;
     height: 50px;
 }
+img.blue {
+    width: 400px;
+    height: 130px;
+    float:left;
+    border: 2px solid cyan;
+    object-fit: cover;  
+    object-position: top;
+}
+img.red{
+    width: 400px;
+    height: 130px;
+    float:right;
+    border: 2px solid red;
+    object-fit: cover;
+    object-position: top;
+}
+img.same{
+    background-image: url('images/background.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 60px;
+    height: 25px;
+}
+img.notSame{
+    background-image: url('images/background.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 60px;
+    height: 25px;
+}
+img.inbetween{
+    background-image: url('images/background.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 60px;
+    height: 25px;
+}
+img.results{
+    background-image: url('images/background.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+.fullpage{
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+}
+.rightimages{
+    flex: 1;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+.rightimages > div {
+    position: relative;
+    margin: 10px;
+}
+.leftimages{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+
+}
+.leftimages > div {
+    position: relative;
+    margin: 10px;
+}
+.guesses{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1000px;
+}
+.guesses > div {
+    margin: 50px;
+}
+.blueteam{
+    font-size: 30px;
+    background-color: blue;
+    text-align: center;
+}
+.redteam{
+    font-size: 30px;
+    background-color: red;
+    text-align: center;
+}
+.tourney{
+    font-size: 40px;
+    background-color: dimgray;
+    border: 1px solid white;
+    text-align: center;
+    min-width: 300px;
+}
+
 
 
