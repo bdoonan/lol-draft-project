@@ -1,109 +1,284 @@
-body{
-    background-color: black;
-    background-size: cover;
-}
-h1{
-
-    color: white;
-    
-}
-
-.right{
-    position: absolute;
-    align-self: right;
-    top: 90px;
-    left: 50px;
-}
-.left{
-    position: absolute;
-    align-self: left;
-    top: 90px;
-    left: 15px;
-    
-}
-img.one {
-    height: 60px;
-    width: 60px;
-    float:left;
-    border: 2px solid cyan;
-}
-img.two {
-    height: 60px;
-    width: 60px;
-    float:right;
-    border: 2px solid red;
-}
-
-div{
-    color: white;
-
-}
-.center{
-    text-align: center;
-}
-h2 {
-    font-size: 20px;
-    color:white;
-  }
-.select{
-    text-align: center;
-}
-.same{
-    
-    width: 110px;
-    height: 32px;
-    padding-bottom: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 2px solid white;
+/* Modern Gaming Theme */
+* {
     margin: 0;
-    background-color: green;
+    padding: 0;
+    box-sizing: border-box;
 }
-.notSame{
-    width: 110px;
-    height: 32px;
-    padding-bottom: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 2px solid white;
-    background-color: #880808;
+
+body {
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+    background-attachment: fixed;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
-.lower{
-    width: 110px;
+
+/* Add subtle animated background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 48, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+/* Typography */
+h1, h2, h3 {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Player name positioning - bottom corner of champion image */
+.right {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: white;
+    z-index: 10;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 4px 8px;
+    border-radius: 2px;
+}
+
+.left {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: white;
+    z-index: 10;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 4px 8px;
+    border-radius: 2px;
+}
+/* Ban images with clean styling */
+img.one {
+    height: 50px;
+    width: 50px;
+    float: left;
+    border: 2px solid #00d4ff;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 212, 255, 0.2);
+    transition: all 0.2s ease;
+    margin: 1px;
+}
+
+img.one:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 6px rgba(0, 212, 255, 0.3);
+}
+
+img.two {
+    height: 50px;
+    width: 50px;
+    float: right;
+    border: 2px solid #ff4444;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2);
+    transition: all 0.2s ease;
+    margin: 1px;
+}
+
+img.two:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 6px rgba(255, 68, 68, 0.3);
+}
+
+/* General styling */
+div {
+    color: white;
+}
+
+.center {
+    text-align: center;
+}
+
+.select {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Form styling - clean and minimal */
+select, button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+select {
+    background: #2a2a3e;
+    color: white;
+    border: 1px solid #4a4a5e;
+    min-width: 200px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #00d4ff;
+    box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.3);
+}
+
+button {
+    background: #ff6b35;
+    color: white;
+    margin-left: 8px;
+    box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
+}
+
+button:hover {
+    background: #e55a2b;
+    box-shadow: 0 3px 6px rgba(255, 107, 53, 0.3);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+/* Guess result styling - clean and minimal */
+.same {
+    width: 100px;
     height: 32px;
-    padding-bottom: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 2px solid white;
-    background-color: #880808;
-    background-size: 50px;
+    padding: 6px 10px;
+    border: 1px solid #4ade80;
+    margin: 2px;
+    background: #10b981;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(16, 185, 129, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.same:hover {
+    background: #059669;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.notSame {
+    width: 100px;
+    height: 32px;
+    padding: 6px 10px;
+    border: 1px solid #ef4444;
+    margin: 2px;
+    background: #dc2626;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(220, 38, 38, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.notSame:hover {
+    background: #b91c1c;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+}
+
+.lower {
+    width: 100px;
+    height: 32px;
+    padding: 6px 10px;
+    border: 1px solid #f59e0b;
+    margin: 2px;
+    background: #f59e0b;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(245, 158, 11, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 12px;
+    background-size: 20px;
     background-repeat: no-repeat;
     background-position: center;
     background-image: url('images/lower.png');
+    transition: all 0.2s ease;
 }
-.higher{
-    width: 110px;
+
+.lower:hover {
+    background: #d97706;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+}
+
+.higher {
+    width: 100px;
     height: 32px;
-    padding-bottom: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 2px solid white;
-    background-color: #880808;
-    background-size: 50px;
+    padding: 6px 10px;
+    border: 1px solid #f59e0b;
+    margin: 2px;
+    background: #f59e0b;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(245, 158, 11, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 12px;
+    background-size: 20px;
     background-repeat: no-repeat;
     background-position: center;
     background-image: url('images/higher.png');
-    
+    transition: all 0.2s ease;
 }
-.inbetween{
-    width: 110px;
+
+.higher:hover {
+    background: #d97706;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+}
+
+.inbetween {
+    width: 100px;
     height: 32px;
-    padding-bottom: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 2px solid white;
-    margin: 0;
-    background-color: #FFAA33;
+    padding: 6px 10px;
+    border: 1px solid #fbbf24;
+    margin: 2px;
+    background: #fbbf24;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(251, 191, 36, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.inbetween:hover {
+    background: #f59e0b;
+    box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
 }
 .guess{
     position: absolute;
@@ -111,21 +286,37 @@ h2 {
     width: 400px;
     height: 50px;
 }
+/* Champion images with clean styling */
 img.blue {
     width: 400px;
     height: 130px;
-    float:left;
-    border: 2px solid cyan;
-    object-fit: cover;  
-    object-position: top;
-}
-img.red{
-    width: 400px;
-    height: 130px;
-    float:right;
-    border: 2px solid red;
+    float: left;
+    border: 2px solid #00d4ff;
+    border-radius: 2px;
     object-fit: cover;
     object-position: top;
+    box-shadow: 0 2px 6px rgba(0, 212, 255, 0.2);
+    transition: all 0.2s ease;
+}
+
+img.blue:hover {
+    box-shadow: 0 4px 8px rgba(0, 212, 255, 0.3);
+}
+
+img.red {
+    width: 400px;
+    height: 130px;
+    float: right;
+    border: 2px solid #ff4444;
+    border-radius: 2px;
+    object-fit: cover;
+    object-position: top;
+    box-shadow: 0 2px 6px rgba(255, 68, 68, 0.2);
+    transition: all 0.2s ease;
+}
+
+img.red:hover {
+    box-shadow: 0 4px 8px rgba(255, 68, 68, 0.3);
 }
 img.same{
     background-image: url('images/background.png');
@@ -160,59 +351,164 @@ img.results{
     background-repeat: no-repeat;
     
 }
-.fullpage{
-    background-color: black;
+/* Main layout with clean styling */
+.fullpage {
+    background: transparent;
     display: flex;
     flex-direction: row;
+    min-height: 100vh;
+    padding: 10px;
+    gap: 10px;
 }
-.rightimages{
+
+.rightimages {
     flex: 1;
-    margin-left: auto;
     display: flex;
     flex-direction: column;
     width: 400px;
+    background: rgba(255, 68, 68, 0.05);
+    border-radius: 2px;
+    padding: 10px;
+    border: 1px solid rgba(255, 68, 68, 0.1);
 }
+
 .rightimages > div {
     position: relative;
-    margin: 10px;
+    margin: 5px 0;
+    display: inline-block;
 }
-.leftimages{
+
+.rightimages > div > img {
+    position: relative;
+}
+
+.rightimages > div > h2 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+    display: block;
+}
+
+.leftimages {
     flex: 1;
     display: flex;
     flex-direction: column;
     width: 400px;
-
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 2px;
+    padding: 10px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
 }
+
 .leftimages > div {
     position: relative;
-    margin: 10px;
+    margin: 5px 0;
+    display: inline-block;
 }
-.guesses{
+
+.leftimages > div > img {
+    position: relative;
+}
+
+.leftimages > div > h2 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    display: block;
+}
+
+.guesses {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 1000px;
+    width: 800px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 2px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
+
 .guesses > div {
-    margin: 50px;
+    margin: 10px 0;
 }
-.blueteam{
-    font-size: 30px;
-    background-color: blue;
+
+.blueteam {
+    font-size: 24px;
+    background: #3b82f6;
     text-align: center;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
-.redteam{
-    font-size: 30px;
-    background-color: red;
+
+.redteam {
+    font-size: 24px;
+    background: #ef4444;
     text-align: center;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(239, 68, 68, 0.2);
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
-.tourney{
-    font-size: 40px;
-    background-color: dimgray;
-    border: 1px solid white;
+
+.tourney {
+    font-size: 28px;
+    background: #6b7280;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
-    min-width: 300px;
+    min-width: 250px;
+    padding: 15px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 15px;
 }
+
+/* Hint buttons styling - clean */
+#bluehint, #redhint {
+    background: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 5px;
+    box-shadow: 0 1px 3px rgba(139, 92, 246, 0.2);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+#bluehint:hover, #redhint:hover {
+    background: #7c3aed;
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .fullpage {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .guesses {
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    .leftimages, .rightimages {
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
 
 
 
