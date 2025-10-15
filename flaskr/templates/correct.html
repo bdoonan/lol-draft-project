@@ -60,6 +60,77 @@
   <div>
     <canvas id="myChart" style="width:100%;max-width:600px;height: 300px;"></canvas>
   </div>
+  {% if tourney and tourney[4] %}
+  <div style="margin-top: 16px;">
+    <div style="color: white; font-size: 18px; margin-bottom: 8px;">VOD</div>
+    <div id="vod-embed" data-vod="{{ tourney[4] }}" style="width: 100%; height: 480px; max-width: 100%; border-radius: 8px; overflow: hidden; background: #000;"></div>
+    <script>
+      (function(){
+        function parseTsToSeconds(v){
+          if(!v) return 0;
+          if(/^[0-9]+$/.test(v)) return parseInt(v,10);
+          var total=0, num="";
+          for(var i=0;i<v.length;i++){
+            var ch=v[i];
+            if(ch>='0'&&ch<='9'){ num+=ch; }
+            else if((ch==='h'||ch==='m'||ch==='s') && num){
+              var n=parseInt(num,10);
+              if(ch==='h') total+=n*3600; else if(ch==='m') total+=n*60; else total+=n;
+              num="";
+            }
+          }
+          if(num) total+=parseInt(num,10);
+          return total;
+        }
+        function buildEmbed(u){
+          try{
+            var a=document.createElement('a');
+            a.href=u;
+            var host=a.hostname||"";
+            var path=a.pathname||"";
+            var qs=(a.search||"").replace(/^\?/,'');
+            var frag=(a.hash||"").replace(/^#/,'');
+            var params=new URLSearchParams(qs);
+            var id="";
+            if(host.endsWith('youtu.be')){
+              id=path.replace(/^\//,'');
+            } else if(path.startsWith('/watch')){
+              id=params.get('v')||"";
+            } else if(path.startsWith('/live/')){
+              id=path.split('/')[2]||"";
+            } else if(path.startsWith('/shorts/')){
+              id=path.split('/')[2]||"";
+            }
+            if(!id) return '';
+            var start=0;
+            if(params.has('start')){ start=parseInt(params.get('start')||'0',10)||0; }
+            else if(params.has('t')){ start=parseTsToSeconds(params.get('t')); }
+            else if(frag && frag.startsWith('t=')){ start=parseTsToSeconds(frag.slice(2)); }
+            var base='https://www.youtube.com/embed/'+id;
+            return start>0 ? (base+'?start='+start) : base;
+          }catch(e){ return ''; }
+        }
+        var container=document.getElementById('vod-embed');
+        if(container){
+          var src=buildEmbed(container.getAttribute('data-vod'));
+          if(src){
+            var iframe=document.createElement('iframe');
+            iframe.src=src;
+            iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            iframe.allowFullscreen=true;
+            iframe.frameBorder='0';
+            iframe.style.width='100%';
+            iframe.style.height='100%';
+            iframe.style.display='block';
+            container.appendChild(iframe);
+          } else {
+            container.innerHTML='<div style="color:#bbb; padding:8px;">No VOD available.</div>';
+          }
+        }
+      })();
+    </script>
+  </div>
+  {% endif %}
   
 </div>
 

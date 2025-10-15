@@ -286,198 +286,14 @@ def popdata(url, tournament, counter, counter2):
     return counter, counter2
 
 
-#Now we populate a hashmap for links and tournament names
+# Initial database population function (now replaced by add_matches_for_year)
+def start_database():
+    """
+    Initial database population - use add_matches_for_year() instead for better control
+    """
+    print("Use add_matches_for_year(start_year, end_year) instead of this function")
+    print("Example: add_matches_for_year(2013, 2025) to populate all years")
 
-fulltournaments = {}
-fulltournamentsindex = 0
-
-for i in range(2013,2026):
-    #Winter playoffs
-    #LCS
-    if i>2024:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LTA/" + str(i) +"_Season/Split_1_Playoffs/Match_History",str(i) + " LTA Winter Playoffs"]
-        fulltournamentsindex+=1
-        #LCK
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) +"_Season/Cup/Match_History",str(i) + " LCK Cup Playoffs"]
-        fulltournamentsindex+=1
-        #LPL
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) +"_Season/Split_1_Playoffs/Match_History",str(i) + " LPL Winter Playoffs"]
-        fulltournamentsindex+=1
-    #LEC
-    if i>2022:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Winter_Playoffs/Match_History",str(i) + " LEC Winter Playoffs"]
-        fulltournamentsindex+=1
-    #OGN since this is only 2 and are special queries to remove regular season games we will do two individual if statements for all three splits in 2013 and 2014
-    if i == 2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Winter&MHG%5Bstartdate%5D=2012-12-25&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Winter Playoffs"]
-        fulltournamentsindex+=1
-    if i == 2014:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Winter&MHG%5Bstartdate%5D=2013-12-25&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Winter Playoffs"]
-        fulltournamentsindex+=1
-    #First Stand
-    if i>2024:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_First_Stand/Match_History",str(i) + " First Stand"]
-        fulltournamentsindex+=1
-    #Spring playoffs
-    #LCS
-    if i==2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
-        fulltournamentsindex+=1
-    elif i == 2021:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Mid-Season_Showdown/Match_History",str(i) + " LCS Spring Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2025:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LCS Spring Playoffs"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LTA_North/" + str(i) +"_Season/Split_2_Playoffs/Match_History",str(i) + " LTA_North Spring Playoffs"]
-        fulltournamentsindex+=1 
-    #LEC
-    if i==2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/Season_" + str(i%10) +"/Spring_Playoffs/Match_History",str(i) + " LEC Spring Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LEC Spring Playoffs"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Spring_Playoffs/Match_History",str(i) + " LEC Spring Playoffs"]
-        fulltournamentsindex+=1
-    #OGN/LCK
-    if i == 2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Spring&MHG%5Bstartdate%5D=2013-05-08&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Spring Playoffs"]
-        fulltournamentsindex+=1
-    elif i == 2014:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Spring&MHG%5Bstartdate%5D=2014-04-16&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Spring Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2016:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Champions/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LCK Spring Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2025:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LCK Spring Playoffs"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) + "_Season/Road_to_MSI/Match_History",str(i) + " LCK Road_to MSI"]
-        fulltournamentsindex+=1
-    #LPL
-    if i<2025:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) + "_Season/Spring_Playoffs/Match_History",str(i) + " LPL Spring Playoffs"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) + "_Season/Split_2_Playoffs/Match_History",str(i) + " LPL Spring Playoffs"]
-        fulltournamentsindex+=1
-    
-    #MSIs
-    if 2016<i<2020:    
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Mid-Season_Invitational/Main_Event/Match_History",str(i) + " MSI"]
-        fulltournamentsindex+=1
-  
-    else:    
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Mid-Season_Invitational/Match_History",str(i) + " MSI"]
-        fulltournamentsindex+=1
-    
-    
-    #Summer playoffs
-    #LCS
-    if i==2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2021:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCS Summer Playoffs"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i)+ "_Season/Championship/Match_History",str(i) + " LCS Summer Playoffs"]
-        fulltournamentsindex+=1
-    #LEC
-    if i==2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/Season_" + str(i%10) +"/Summer_Playoffs/Match_History",str(i) + " LEC Summer Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LEC Summer Playoffs"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LEC Summer Playoffs"]
-        fulltournamentsindex+=1
-    #LCK/OGN
-    if i == 2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Summer&MHG%5Bstartdate%5D=2013-08-07&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Summer Playoffs"]
-        fulltournamentsindex+=1
-    elif i == 2014:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Summer&MHG%5Bstartdate%5D=2014-07-16&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=",str(i) + " OGN Summer Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2016:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Champions/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCK Summer Playoffs"]
-        fulltournamentsindex+=1
-    elif i<2025:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LCK Summer Playoffs"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) +"_Season/Season_Playoffs/Match_History",str(i) + " LCK Summer Playoffs"]
-        fulltournamentsindex+=1
-    #LPL
-    if i<2025:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) +"_Season/Summer_Playoffs/Match_History",str(i) + " LPL Summer Playoffs"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) +"_Season/Grand_Finals/Match_History",str(i) + " LPL Summer Playoffs"]
-        fulltournamentsindex+=1
-    
-    #LEC Season Finals
-    fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Season_Finals/Match_History",str(i) + " LEC Season Finals"]
-    fulltournamentsindex+=1
-    
-    #Regional Finals
-    #LCS
-    if i < 2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/NA_LCS/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LCS Regional Finals"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCS/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LCS Regional Finals"]
-        fulltournamentsindex+=1
-    #LEC
-    if i<2019:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/EU_LCS/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LEC Regional Finals"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LEC/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LEC Regional Finals"]
-        fulltournamentsindex+=1
-    #LPL
-    fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LPL/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LPL Regional Finals"]
-    fulltournamentsindex+=1
-    #LCK
-    if i == 2013:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Season_" + str(i%10) +"_Korea_Regional_Finals/Match_History",str(i) + " OGN Regional Finals"]
-        fulltournamentsindex+=1
-    elif i < 2015:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_Korea_Regional_Finals/Match_History",str(i) + " OGN Regional Finals"]
-        fulltournamentsindex+=1
-    elif i < 2016:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_Korea_Regional_Finals/Match_History",str(i) + " LCK Regional Finals"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/LCK/" + str(i) +"_Season/Regional_Finals/Match_History",str(i) + " LCK Regional Finals"]
-        fulltournamentsindex+=1
-    
-    #Worlds
-    if i<2014:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/Season_" + str(i%10) +"_World_Championship/Match_History",str(i) + " Worlds"]
-        fulltournamentsindex+=1
-    elif i>2016:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_World_Championship/Main_Event/Match_History",str(i) + " Worlds"]
-        fulltournamentsindex+=1
-    else:
-        fulltournaments[fulltournamentsindex]=["https://lol.fandom.com/wiki/" + str(i) +"_Season_World_Championship/Match_History",str(i) + " Worlds"]
-        fulltournamentsindex+=1
-
-#This calls the functions for all of the tournaments
-for i in fulltournaments:
-    print (fulltournaments[i][0])
-    counter, counter2 = popdata(fulltournaments[i][0], fulltournaments[i][1], counter, counter2)
 
 # url = 'https://lol.fandom.com/wiki/2017_Season_World_Championship/Main_Event/Match_History'
 # picksandbans = {}
@@ -489,5 +305,354 @@ for i in fulltournaments:
 # # makedb(tournament, playermap, picksandbans, squads, counter, counter2)
 # print(vods)
 print("Databases populated")
+
+def add_matches_for_year(start_year, end_year):
+    """
+    Add matches for a specific range of years without re-scraping everything.
+    Checks for existing matches and only adds new ones.
+    """
+    conn = sqlite3.connect("test.db")
+    cur = conn.cursor()
+    
+    # Get the current max ID to continue from
+    max_id_result = cur.execute("SELECT MAX(id) FROM game").fetchone()
+    current_max_id = max_id_result[0] if max_id_result[0] is not None else 0
+    counter = current_max_id + 1
+    counter2 = counter
+    
+    # Get existing tournaments to avoid duplicates
+    existing_tournaments = set()
+    existing_tournaments_result = cur.execute("SELECT DISTINCT tournament FROM game").fetchall()
+    for row in existing_tournaments_result:
+        existing_tournaments.add(row[0])
+    
+    print(f"Starting from ID: {counter}")
+    print(f"Existing tournaments: {len(existing_tournaments)}")
+    
+    # Build tournaments for the specified year range
+    tournaments_to_add = {}
+    tournament_index = 0
+    
+    for i in range(start_year, end_year + 1):
+        # Winter playoffs
+        if i > 2024:
+            tournament_name = f"{i} LTA Winter Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LTA/{i}_Season/Split_1_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+            
+            tournament_name = f"{i} LCK Cup Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCK/{i}_Season/Cup/Match_History", tournament_name]
+                tournament_index += 1
+            
+            tournament_name = f"{i} LPL Winter Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LPL/{i}_Season/Split_1_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LEC Winter Playoffs
+        if i > 2022:
+            tournament_name = f"{i} LEC Winter Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LEC/{i}_Season/Winter_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # OGN Winter Playoffs (special cases)
+        if i == 2013:
+            tournament_name = f"{i} OGN Winter Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = ["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Winter&MHG%5Bstartdate%5D=2012-12-25&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=", tournament_name]
+                tournament_index += 1
+        if i == 2014:
+            tournament_name = f"{i} OGN Winter Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = ["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Winter&MHG%5Bstartdate%5D=2013-12-25&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=", tournament_name]
+                tournament_index += 1
+        
+        # First Stand
+        if i > 2024:
+            tournament_name = f"{i} First Stand"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/{i}_First_Stand/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # Spring playoffs
+        # LCS Spring
+        if i == 2013:
+            tournament_name = f"{i} LCS Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/NA_LCS/Season_{i%10}/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2019:
+            tournament_name = f"{i} LCS Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/NA_LCS/{i}_Season/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        elif i == 2021:
+            tournament_name = f"{i} LCS Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCS/{i}_Season/Mid-Season_Showdown/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2025:
+            tournament_name = f"{i} LCS Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCS/{i}_Season/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LTA_North Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LTA_North/{i}_Season/Split_2_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LEC Spring
+        if i == 2013:
+            tournament_name = f"{i} LEC Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/EU_LCS/Season_{i%10}/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2019:
+            tournament_name = f"{i} LEC Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/EU_LCS/{i}_Season/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LEC Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LEC/{i}_Season/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LCK/OGN Spring
+        if i == 2013:
+            tournament_name = f"{i} OGN Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = ["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Spring&MHG%5Bstartdate%5D=2013-05-08&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=", tournament_name]
+                tournament_index += 1
+        elif i == 2014:
+            tournament_name = f"{i} OGN Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = ["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Spring&MHG%5Bstartdate%5D=2014-04-16&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=", tournament_name]
+                tournament_index += 1
+        elif i < 2016:
+            tournament_name = f"{i} LCK Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/Champions/{i}_Season/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2025:
+            tournament_name = f"{i} LCK Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCK/{i}_Season/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LCK Road_to MSI"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCK/{i}_Season/Road_to_MSI/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LPL Spring
+        if i < 2025:
+            tournament_name = f"{i} LPL Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LPL/{i}_Season/Spring_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LPL Spring Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LPL/{i}_Season/Split_2_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # MSI
+        if 2016 < i < 2020:
+            tournament_name = f"{i} MSI"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/{i}_Mid-Season_Invitational/Main_Event/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} MSI"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/{i}_Mid-Season_Invitational/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # Summer playoffs
+        # LCS Summer
+        if i == 2013:
+            tournament_name = f"{i} LCS Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/NA_LCS/Season_{i%10}/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2019:
+            tournament_name = f"{i} LCS Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/NA_LCS/{i}_Season/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2021:
+            tournament_name = f"{i} LCS Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCS/{i}_Season/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LCS Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCS/{i}_Season/Championship/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LEC Summer
+        if i == 2013:
+            tournament_name = f"{i} LEC Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/EU_LCS/Season_{i%10}/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2019:
+            tournament_name = f"{i} LEC Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/EU_LCS/{i}_Season/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LEC Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LEC/{i}_Season/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LCK/OGN Summer
+        if i == 2013:
+            tournament_name = f"{i} OGN Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = ["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2013+Summer&MHG%5Bstartdate%5D=2013-08-07&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=", tournament_name]
+                tournament_index += 1
+        elif i == 2014:
+            tournament_name = f"{i} OGN Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = ["https://lol.fandom.com/wiki/Special:RunQuery/MatchHistoryGame?MHG%5Btournament%5D=Champions+2014+Summer&MHG%5Bstartdate%5D=2014-07-16&MHG%5Bpreload%5D=Tournament&MHG%5Bspl%5D=yes&_run=", tournament_name]
+                tournament_index += 1
+        elif i < 2016:
+            tournament_name = f"{i} LCK Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/Champions/{i}_Season/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2025:
+            tournament_name = f"{i} LCK Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCK/{i}_Season/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LCK Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCK/{i}_Season/Season_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LPL Summer
+        if i < 2025:
+            tournament_name = f"{i} LPL Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LPL/{i}_Season/Summer_Playoffs/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LPL Summer Playoffs"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LPL/{i}_Season/Grand_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LEC Season Finals
+        tournament_name = f"{i} LEC Season Finals"
+        if tournament_name not in existing_tournaments:
+            tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LEC/{i}_Season/Season_Finals/Match_History", tournament_name]
+            tournament_index += 1
+        
+        # Regional Finals
+        # LCS Regional
+        if i < 2019:
+            tournament_name = f"{i} LCS Regional Finals"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/NA_LCS/{i}_Season/Regional_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LCS Regional Finals"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCS/{i}_Season/Regional_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LEC Regional
+        if i < 2019:
+            tournament_name = f"{i} LEC Regional Finals"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/EU_LCS/{i}_Season/Regional_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LEC Regional Finals"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LEC/{i}_Season/Regional_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # LPL Regional
+        tournament_name = f"{i} LPL Regional Finals"
+        if tournament_name not in existing_tournaments:
+            tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LPL/{i}_Season/Regional_Finals/Match_History", tournament_name]
+            tournament_index += 1
+        
+        # LCK/OGN Regional
+        if i == 2013:
+            tournament_name = f"{i} OGN Regional Finals"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/Season_{i%10}_Korea_Regional_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2015:
+            tournament_name = f"{i} OGN Regional Finals"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/{i}_Season_Korea_Regional_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        elif i < 2016:
+            tournament_name = f"{i} LCK Regional Finals"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/{i}_Season_Korea_Regional_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} LCK Regional Finals"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/LCK/{i}_Season/Regional_Finals/Match_History", tournament_name]
+                tournament_index += 1
+        
+        # Worlds
+        if i < 2014:
+            tournament_name = f"{i} Worlds"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/Season_{i%10}_World_Championship/Match_History", tournament_name]
+                tournament_index += 1
+        elif i > 2016:
+            tournament_name = f"{i} Worlds"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/{i}_Season_World_Championship/Main_Event/Match_History", tournament_name]
+                tournament_index += 1
+        else:
+            tournament_name = f"{i} Worlds"
+            if tournament_name not in existing_tournaments:
+                tournaments_to_add[tournament_index] = [f"https://lol.fandom.com/wiki/{i}_Season_World_Championship/Match_History", tournament_name]
+                tournament_index += 1
+    
+    conn.close()
+    
+    print(f"Found {len(tournaments_to_add)} new tournaments to add for years {start_year}-{end_year}")
+    
+    # Process the new tournaments
+    for i in tournaments_to_add:
+        print(f"Processing: {tournaments_to_add[i][1]}")
+        try:
+            counter, counter2 = popdata(tournaments_to_add[i][0], tournaments_to_add[i][1], counter, counter2)
+            print(f"  Added successfully. Next ID: {counter}")
+        except Exception as e:
+            print(f"  Error processing {tournaments_to_add[i][1]}: {str(e)}")
+            continue
+    
+    print(f"Finished adding matches for years {start_year}-{end_year}")
+    return counter, counter2
+
+# Example usage:
+# To add all 2025 matches:
+# add_matches_for_year(2025, 2025)
+
+# To add a range of years:
+# add_matches_for_year(2024, 2025)
+
+# To populate the entire database from scratch:
+# add_matches_for_year(2013, 2025)
 
 
