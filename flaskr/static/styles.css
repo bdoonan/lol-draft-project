@@ -472,8 +472,8 @@ img.results{
 }
 
 /* Hint buttons styling - clean */
-#bluehint, #redhint {
-    background: #8b5cf6;
+#bluehint{
+    background: #3b82f6;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -485,9 +485,26 @@ img.results{
     transition: all 0.2s ease;
     cursor: pointer;
 }
+#redhint{
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 5px;
+    box-shadow: 0 1px 3px rgba(139, 92, 246, 0.2);
+    transition: all 0.2s ease;
+    cursor: pointer;   
+}
 
-#bluehint:hover, #redhint:hover {
-    background: #7c3aed;
+#bluehint:hover {
+    background: darkblue;
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
+}
+#redhint:hover {
+    background: darkred;
     box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
 }
 
