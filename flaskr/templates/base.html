@@ -11,7 +11,31 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
 </head>
 <body>
-  
+  <!-- Instructions Modal -->
+  <div id="instructionsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Welcome to LoL Draft Guesser!</h2>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <h3>How to Play:</h3>
+        <ul>
+          <li>Guess the daily professional league of legends match. Changes every 24 hours.</li>
+          <li>The match is randomly selected from tier 1 league playoffs, MSIs, and Worlds matches from 2013-present.</li>
+          <li>First select the tournament of the match from the dropdown and click submit</li>
+          <li>Red means incorrect, green means correct</li>
+          <li>If correct you can select the teams playing, if incorrect it will display what parts are correct and if year is higher or lower</li>
+          <li>Next select the match from the tournament, if one of teams is correct but on the wrong side it will be highlighted yellow</li>
+          <li>If you are stuck you can use the hint buttons to display a random player from that selected team</li>
+        </ul>
+         <p><strong>Have fun</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button id="closeModalBtn" class="modal-close-btn">Got it!</button>
+      </div>
+    </div>
+  </div>
   
       
   <div class="fullpage">
@@ -63,6 +87,7 @@
       <div>
         <button id = "bluehint" type="button" onclick="toggleText('{{randomblue}}')">Random Blue Team Player</button>
         <button id = "redhint" type='button' onclick="toggleText2('{{randomred}}')">Random Red Team Player</button>
+        <button id = "instructionsBtn" type="button" onclick="showInstructions()">View Instructions</button>
       </div>
       {%block attempts%}{% endblock %}
       <div>
@@ -212,6 +237,42 @@
   else{
     console.log("not supported");
   }
+  
+  // Show instructions modal on first visit
+  window.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('instructionsModal');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const closeSpan = document.querySelector('.close-modal');
+    
+    // Check if user has seen instructions before
+    if (!localStorage.getItem('hasSeenInstructions')) {
+      modal.style.display = 'block';
+    }
+    
+    // Close modal when clicking the X
+    if (closeSpan) {
+      closeSpan.onclick = function() {
+        modal.style.display = 'none';
+        localStorage.setItem('hasSeenInstructions', 'true');
+      };
+    }
+    
+    // Close modal when clicking the button
+    if (closeBtn) {
+      closeBtn.onclick = function() {
+        modal.style.display = 'none';
+        localStorage.setItem('hasSeenInstructions', 'true');
+      };
+    }
+    
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+        localStorage.setItem('hasSeenInstructions', 'true');
+      }
+    };
+  });
 </script>
 </body>
 

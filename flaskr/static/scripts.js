@@ -35,4 +35,11 @@ function checkcomplete(str){
     localStorage.setItem('done',str)
   }
 }
+//function to show instructions modal
+function showInstructions(){
+  const modal = document.getElementById('instructionsModal');
+  if (modal) {
+    modal.style.display = 'block';
+  }
+}
 

@@ -507,6 +507,23 @@ img.results{
     background: darkred;
     box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
 }
+#instructionsBtn {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 5px;
+    box-shadow: 0 1px 3px rgba(107, 114, 128, 0.2);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+#instructionsBtn:hover {
+    background: #4b5563;
+    box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
 
 /* Responsive design */
 @media (max-width: 1200px) {
@@ -526,6 +543,189 @@ img.results{
     }
 }
 
+/* Instructions Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
+.modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    margin: 5% auto;
+    padding: 0;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.3s ease;
+    position: relative;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    padding: 20px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: white;
+    font-size: 1.8rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.close-modal {
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.2);
+    transform: scale(1.1);
+}
+
+.modal-body {
+    padding: 30px;
+    color: #ffffff;
+}
+
+.modal-body h3 {
+    color: #00d4ff;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.modal-body ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 20px 0;
+}
+
+.modal-body ul li {
+    padding: 12px 0;
+    padding-left: 30px;
+    position: relative;
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-body ul li:last-child {
+    border-bottom: none;
+}
+
+.modal-body ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #00d4ff;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.modal-body p {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #ff6b35;
+}
+
+.modal-footer {
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 6px 6px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-close-btn {
+    background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%);
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(255, 107, 53, 0.3);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modal-close-btn:hover {
+    background: linear-gradient(135deg, #e55a2b 0%, #cc4a1f 100%);
+    box-shadow: 0 6px 12px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+.modal-close-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive modal */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-body h3 {
+        font-size: 1.2rem;
+    }
+}
 
