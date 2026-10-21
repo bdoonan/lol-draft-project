@@ -127,6 +127,14 @@ def _vod_dict(video_id, url):
     }
 
 
+@bp.app_template_global()
+def asset_url(filename):
+    """static url with ?v=<last modified time>, so the week long browser cache is skipped as soon as the file changes"""
+    path = os.path.join(current_app.static_folder, filename)
+    version = int(os.path.getmtime(path)) if os.path.exists(path) else 0
+    return url_for('static', filename=filename, v=version)
+
+
 @bp.after_app_request
 def referrer_policy(response):
     #youtube's player needs to know which site embeds it, a missing referrer shows "video unavailable"

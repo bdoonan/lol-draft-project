@@ -90,6 +90,14 @@
     button.disabled = true;
     try {
       state = await post('/api/' + state.slug + '/guess', body);
+      //the server only accepts each guess once, so these fire once per game
+      if (state.guesses.length === 1) track('start-' + state.slug, 'Started ' + state.name);
+      if (state.stage === 'won') {
+        track('finish-' + state.slug + '-won-' + state.result.attempts,
+              state.name + ' won in ' + state.result.attempts);
+      } else if (state.stage === 'lost') {
+        track('finish-' + state.slug + '-lost', state.name + ' lost');
+      }
       setStatus('');
       yearPicker.clear();
       eventPicker.clear();
@@ -105,6 +113,7 @@
   async function useHint(side) {
     try {
       state = await post('/api/' + state.slug + '/hint', { side: side });
+      track('hint-' + state.slug + '-' + side, state.name + ' ' + side + ' hint');
       render();
     } catch (e) {
       setStatus(e.message);
@@ -113,6 +122,17 @@
 
   function setStatus(text) {
     $('status').textContent = text;
+  }
+
+  //---------- analytics ----------
+  //sends a goatcounter event (shown in its dashboard as a path marked "event").
+  //does nothing when analytics are off (no GOATCOUNTER_CODE) or the script is blocked
+  function track(name, title) {
+    try {
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: name, title: title || name, event: true });
+      }
+    } catch (e) { /* never let analytics break the game */ }
   }
 
   //---------- drawing ----------
@@ -242,6 +262,7 @@
     play.style.backgroundImage = 'url("' + vod.thumb + '")';
     play.setAttribute('aria-label', 'Play the VOD');
     play.addEventListener('click', () => {
+      track('vod-play-' + state.slug, state.name + ' VOD played');
       const iframe = document.createElement('iframe');
       iframe.src = vod.embed;
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
@@ -253,6 +274,7 @@
 
     const link = $('vod-watch');
     link.href = vod.watch;
+    link.addEventListener('click', () => track('vod-youtube-' + state.slug, state.name + ' VOD on YouTube'));
     const s = vod.start;
     const at = s ? ' (starts at ' + Math.floor(s / 3600) + ':' + String(Math.floor(s / 60) % 60).padStart(2, '0') +
       ':' + String(s % 60).padStart(2, '0') + ')' : '';

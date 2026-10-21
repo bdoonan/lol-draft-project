@@ -1,3 +1,4 @@
+import re
 import sqlite3
 from datetime import date, timedelta
 
@@ -369,6 +370,18 @@ def test_splash_fallback_uses_data_dragon_capitals(app, tmp_path):
         assert views.splash_url('wukong').endswith('/centered/MonkeyKing_0.jpg')
         assert views.splash_url('nunu&willump').endswith('/centered/Nunu_0.jpg')
         assert views.splash_url('ahri').endswith('/centered/Ahri_0.jpg')
+
+
+def test_css_and_js_urls_are_versioned(client):
+    html = client.get('/').get_data(as_text=True)
+    assert re.search(r'/static/styles\.css\?v=\d{9,}', html) and re.search(r'/static/scripts\.js\?v=\d{9,}', html)
+
+
+def test_analytics_script_only_when_configured(client, app):
+    assert 'goatcounter' not in client.get('/').get_data(as_text=True)
+    app.config['GOATCOUNTER_CODE'] = 'loldraftle'
+    for url in ('/', '/play/lck'):
+        assert 'data-goatcounter="https://loldraftle.goatcounter.com/count"' in client.get(url).get_data(as_text=True)
 
 
 def test_referrer_policy_header(client):

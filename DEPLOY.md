@@ -25,6 +25,7 @@ The live site only reads `test.db`. Every player's progress is in their session 
      if path not in sys.path:
          sys.path.insert(0, path)
      os.environ['SECRET_KEY'] = '<the value from step 2>'
+     os.environ['GOATCOUNTER_CODE'] = 'loldraftle'   # your goatcounter site code, leave out to turn analytics off
      from flaskr import create_app
      application = create_app()
      ```
@@ -51,9 +52,22 @@ Then on PythonAnywhere: `cd ~/lol-draft-project && git pull`, and press **Reload
 
 Adding games changes the daily rotation from the next day on, so it is best to update just after midnight UTC.
 
+## Analytics
+
+Analytics use [GoatCounter](https://www.goatcounter.com). It's free for non-commercial sites and uses no cookies, so no consent banner is needed. It only runs when `GOATCOUNTER_CODE` is set, so local runs aren't counted. Besides page views, the dashboard shows these events (marked "event"):
+
+| Event | When |
+|---|---|
+| `start-<game>` | first guess in a game, e.g. `start-lck` |
+| `finish-<game>-won-<n>` / `finish-<game>-lost` | the guess that ends a game, with attempts used |
+| `hint-<game>-blue` / `hint-<game>-red` | a hint is used |
+| `vod-play-<game>` / `vod-youtube-<game>` | the VOD thumbnail or the YouTube link is clicked |
+
+Ad blockers stop the script for some visitors, so the numbers are a lower bound.
+
 ## Good to know
 
 - **The daily matches change at midnight UTC.** `FORCE_DAY` is only for testing; don't set it on the server.
 - **Free accounts can only reach allowlisted websites.** If the YouTube check that hides deleted VODs can't connect, the VOD is simply shown as normal.
-- **Static files are cached by browsers for a week.** If you replace an image under the same name (e.g. a new league logo), returning players may see the old one for a few days. Giving the file a new name avoids that.
+- **Static files are cached by browsers for a week.** `styles.css` and `scripts.js` get a `?v=` version from their last-modified time, so code changes reach players right away. If you replace an image under the same name (e.g. a new league logo), returning players may see the old one for a few days. Giving the file a new name avoids that.
 - **If traffic ever spikes,** putting the domain behind Cloudflare's free plan caches the images and static files at the edge, with no change to the app.

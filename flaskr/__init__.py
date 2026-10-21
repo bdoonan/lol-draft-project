@@ -11,6 +11,8 @@ def create_app(test_config=None):
         DATABASE=os.environ.get('DATABASE', os.path.join(os.path.dirname(app.root_path), 'test.db')),
         #YYYY-MM-DD, pretend it is this day (for testing the daily rotation)
         FORCE_DAY=os.environ.get('FORCE_DAY'),
+        #the code from <code>.goatcounter.com, analytics are off when it isn't set (local runs, tests)
+        GOATCOUNTER_CODE=os.environ.get('GOATCOUNTER_CODE'),
     )
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
