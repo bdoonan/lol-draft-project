@@ -3,10 +3,11 @@
 -r requirements.txt
 beautifulsoup4==4.12.3
 bs4==0.0.2
-certifi==2024.7.4
-charset-normalizer==3.3.2
-idna==3.7
-requests==2.32.3
+#certifi 2026.10.19+ drops the emSign roots with compromised intermediates (GHSA-6q48-6c7w-9gw2)
+certifi==2026.10.19
+charset-normalizer==3.5.2
+idna==3.20
+requests==2.34.2
 soupsieve==2.5
-urllib3==2.2.2
+urllib3==2.8.0
 pytest
