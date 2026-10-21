@@ -30,9 +30,3 @@ The scraped match history lists picks by role, so the order teams picked in come
 - League logos for the home page cards: add `lck`, `lpl`, `lec`, `lcs`, `international` and `worlds` images (png, svg or webp) to `flaskr/static/images/leagues/`. A card without one just shows the name.
 - Logos are trademarks of Riot Games and the teams, used here under Riot's fan content policy for a free, non-commercial project.
 - The end screen shows the VOD as a click-to-play thumbnail with a "Watch on YouTube" link underneath. Each video is checked with YouTube once per server run, and deleted or private videos and old Twitch links show "No VOD available".
-
-Running it:
-- `startdata.py` no longer needs the drop lines commented out.
-- Set a `SECRET_KEY` environment variable when deployed, or anyone can forge a session and reset their attempts.
-- `FORCE_DAY=2025-01-01` pretends it is that day, for testing the rotation. `DATABASE` overrides the path to `test.db` (defaults to the project root).
-- Tests: `pip install pytest` then `python -m pytest tests`.
