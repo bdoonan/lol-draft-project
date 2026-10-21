@@ -26,6 +26,13 @@ NEXT_STAGE = {'year': 'event', 'event': 'blue', 'blue': 'red', 'red': 'won'}
 ROLE_NAMES = ('TOP', 'JNG', 'MID', 'BOT', 'SUP')
 #db champion names that don't match the image file names
 SPLASH_ALIASES = {'wukong': 'MonkeyKing', 'nunu&willump': 'Nunu', 'renataglasc': 'Renata'}
+#data dragon ids are case sensitive, these are the ones that aren't just a capitalized first letter
+#(checked against data dragon 16.21.1, new champions so far have all been single words)
+#FiddleSticks is his old id, the centered splash images still use it
+DDRAGON_IDS = {i.lower(): i for i in (
+    'AurelionSol', 'DrMundo', 'FiddleSticks', 'JarvanIV', 'KSante', 'KogMaw', 'LeeSin', 'MasterYi',
+    'MissFortune', 'MonkeyKing', 'RekSai', 'TahmKench', 'TwistedFate', 'XinZhao',
+)}
 ICON_ALIASES = {'anivia': 'anivi', 'nunu&willump': 'nunu'}
 
 
@@ -66,8 +73,9 @@ def splash_url(champ):
     name = _files(os.path.join(current_app.static_folder, 'images', 'centered')).get(f'{key}_0'.lower())
     if name:
         return url_for('static', filename=f'images/centered/{name}')
-    #champions released after the images were downloaded
-    return f'https://ddragon.leagueoflegends.com/cdn/img/champion/centered/{key[:1].upper()}{key[1:]}_0.jpg'
+    #champions released after the images were downloaded, or the images missing on the server
+    ddragon_id = DDRAGON_IDS.get(key.lower(), key[:1].upper() + key[1:])
+    return f'https://ddragon.leagueoflegends.com/cdn/img/champion/centered/{ddragon_id}_0.jpg'
 
 
 def icon_url(champ):

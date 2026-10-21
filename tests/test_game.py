@@ -360,6 +360,17 @@ def test_production_settings(app, monkeypatch):
     assert c.get('/static/styles.css').headers['Cache-Control'] == 'public, max-age=604800'
 
 
+def test_splash_fallback_uses_data_dragon_capitals(app, tmp_path):
+    from flaskr import answer as views
+    app.static_folder = str(tmp_path)  # no local images at all, like the server was
+    with app.test_request_context():
+        assert views.splash_url('leesin').endswith('/centered/LeeSin_0.jpg')
+        assert views.splash_url('ksante').endswith('/centered/KSante_0.jpg')
+        assert views.splash_url('wukong').endswith('/centered/MonkeyKing_0.jpg')
+        assert views.splash_url('nunu&willump').endswith('/centered/Nunu_0.jpg')
+        assert views.splash_url('ahri').endswith('/centered/Ahri_0.jpg')
+
+
 def test_referrer_policy_header(client):
     assert client.get('/').headers['Referrer-Policy'] == 'strict-origin-when-cross-origin'
 
