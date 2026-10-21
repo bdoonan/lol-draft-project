@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import team_column %}
+{% block title %}{{ game_name }} · LoL Draftle{% endblock %}
+{% block body %}
+<div class="fullpage">
+  {{ team_column('blue', draft.blue) }}
+  <div class="guesses">
+    <a class="back-link" href="{{ url_for('answer.home') }}">&larr; All games</a>
+    <span class="tourney" id="tourney-name">{{ game_name }} · ?</span>
+    <div id="view-toggle" class="view-toggle"{% if not draft.has_order %} hidden{% endif %}>
+      <button type="button" data-view="draft">Draft order</button>
+      <button type="button" data-view="roles">Roles</button>
+    </div>
+
+    <!-- guessing controls, hidden by scripts.js once the game is finished -->
+    <div id="play-panel" class="play-panel">
+      <form id="guess-form" class="select">
+        <div id="year-picker" class="picker">
+          <select id="year-select" placeholder="Select a year">
+            <option value=""></option>
+            {% for y in years %}
+            <option value="{{ y }}">{{ y }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div id="event-picker" class="picker" hidden>
+          <select id="event-select" placeholder="Select the event"></select>
+        </div>
+        <div id="team-picker" class="picker side-blue" hidden>
+          <select id="team-select" placeholder="Blue side team"></select>
+        </div>
+        <button type="submit" id="submit-btn">Submit</button>
+      </form>
+      <p id="status" class="status" role="status"></p>
+      <span id="attempts" class="attempts"></span>
+    </div>
+
+    <div>
+      <button id="bluehint" type="button">Random Blue Team Player</button>
+      <button id="redhint" type="button">Random Red Team Player</button>
+      <button id="instructionsBtn" type="button">View Instructions</button>
+    </div>
+
+    <div id="guess-history" class="guess-history"></div>
+
+    <!-- end of game screen, shown in place on the same page -->
+    <section id="result" class="result" hidden>
+      <span id="result-banner" class="result-banner"></span>
+      <div class="stats">
+        <span id="winratio"></span>
+        <span id="streak"></span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="myChart"></canvas>
+      </div>
+      <div id="vod" class="vod" hidden>
+        <div class="vod-title">VOD</div>
+        <div id="vod-embed" class="vod-embed"></div>
+        <a id="vod-watch" class="vod-watch" target="_blank" rel="noopener" hidden></a>
+      </div>
+      <a class="back-link" href="{{ url_for('answer.home') }}">Play another region &rarr;</a>
+      <span id="countdown" class="countdown"></span>
+    </section>
+  </div>
+  {{ team_column('red', draft.red) }}
+</div>
+
+<script id="state" type="application/json">{{ state|tojson }}</script>
+{% endblock %}

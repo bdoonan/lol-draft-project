@@ -280,12 +280,6 @@ button:active {
     background: #f59e0b;
     box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
 }
-.guess{
-    position: absolute;
-    left: 40%;
-    width: 400px;
-    height: 50px;
-}
 /* Champion images with clean styling */
 img.blue {
     width: 400px;
@@ -317,39 +311,6 @@ img.red {
 
 img.red:hover {
     box-shadow: 0 4px 8px rgba(255, 68, 68, 0.3);
-}
-img.same{
-    background-image: url('images/background.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 60px;
-    height: 25px;
-}
-img.notSame{
-    background-image: url('images/background.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 60px;
-    height: 25px;
-}
-img.inbetween{
-    background-image: url('images/background.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 60px;
-    height: 25px;
-}
-img.results{
-    background-image: url('images/background.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    
 }
 /* Main layout with clean styling */
 .fullpage {
@@ -507,6 +468,13 @@ img.results{
     background: darkred;
     box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
 }
+#bluehint:disabled, #redhint:disabled {
+    background: #4b5563;
+    color: #9ca3af;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
 #instructionsBtn {
     background: #6b7280;
     color: white;
@@ -541,6 +509,409 @@ img.results{
         width: 100%;
         max-width: 600px;
     }
+}
+
+/* Single page game */
+[hidden] {
+    display: none !important;
+}
+
+img.one.phase-gap {
+    margin-right: 20px;
+}
+
+img.two.phase-gap {
+    margin-left: 20px;
+}
+
+.select form, form.select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.picker {
+    width: 320px;
+    text-align: left;
+}
+
+.status {
+    min-height: 1.2em;
+    color: #fbbf24;
+    text-align: center;
+}
+
+.attempts {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+}
+
+.guess-history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.guess-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.guess-row > span {
+    width: auto;
+    min-width: 100px;
+    height: auto;
+    min-height: 32px;
+    font-size: 14px;
+    color: white;
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.result-banner {
+    font-size: 26px;
+    padding: 8px 16px;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.result-banner.won {
+    background: green;
+}
+
+.result-banner.lost {
+    background: #dc2626;
+}
+
+.stats {
+    display: flex;
+    gap: 24px;
+    font-size: 20px;
+}
+
+.chart-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+}
+
+.vod {
+    width: 100%;
+    max-width: 600px;
+}
+
+.vod-title {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.vod-embed {
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+}
+
+.vod-embed.vod-none {
+    aspect-ratio: auto;
+    background: none;
+    color: #9ca3af;
+}
+
+.vod-thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    box-shadow: none;
+}
+
+/* youtube style play button drawn in css */
+.vod-thumb::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 68px;
+    height: 48px;
+    transform: translate(-50%, -50%);
+    background: rgba(220, 38, 38, 0.9);
+    border-radius: 12px;
+}
+
+.vod-thumb::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-35%, -50%);
+    border-style: solid;
+    border-width: 11px 0 11px 19px;
+    border-color: transparent transparent transparent white;
+}
+
+.vod-thumb:hover {
+    background-color: #000;
+    filter: brightness(1.1);
+}
+
+.vod-watch {
+    display: inline-block;
+    margin-top: 8px;
+}
+
+/* draft order / role tags on each pick */
+.pick-tags {
+    position: absolute;
+    top: 6px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.leftimages .pick-tags {
+    left: 6px;
+}
+
+.rightimages .pick-tags {
+    right: 6px;
+    flex-direction: row-reverse;
+}
+
+.pick-badge, .role-tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.leftimages .pick-badge {
+    background: #3b82f6;
+}
+
+.rightimages .pick-badge {
+    background: #ef4444;
+}
+
+.view-toggle {
+    display: flex;
+    margin-bottom: 4px;
+}
+
+.view-toggle button {
+    margin: 0;
+    background: #2a2a3e;
+    color: #9ca3af;
+    border: 1px solid #4a4a5e;
+    box-shadow: none;
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+.view-toggle button.active {
+    background: #4a4a5e;
+    color: white;
+}
+
+.team-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.game-card-logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    align-self: center;
+}
+
+.vod-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.vod a {
+    color: #00d4ff;
+}
+
+.countdown {
+    font-size: 18px;
+    color: #9ca3af;
+}
+
+.side-blue .ts-control, .side-blue select {
+    border-color: #00d4ff !important;
+}
+
+.side-red .ts-control, .side-red select {
+    border-color: #ff4444 !important;
+}
+
+.guess-row > .side-label {
+    min-width: 44px;
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: right;
+    justify-content: flex-end;
+    display: inline-flex;
+    align-items: center;
+}
+
+.guess-row > .side-label.blue {
+    color: #00d4ff;
+}
+
+.guess-row > .side-label.red {
+    color: #ff4444;
+}
+
+.back-link {
+    align-self: flex-start;
+    color: #9ca3af;
+    text-decoration: none;
+    margin-bottom: 8px;
+}
+
+.back-link:hover {
+    color: white;
+}
+
+.result .back-link {
+    align-self: center;
+    color: #00d4ff;
+}
+
+/* Home page */
+.home {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 16px;
+    text-align: center;
+}
+
+.home-sub {
+    color: #9ca3af;
+    margin-bottom: 32px;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.game-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: all 0.2s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-2px);
+    border-color: #00d4ff;
+}
+
+.game-card-name {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.game-card-status {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+.game-card.won {
+    border-color: #10b981;
+}
+
+.game-card.won .game-card-status {
+    color: #4ade80;
+}
+
+.game-card.lost {
+    border-color: #dc2626;
+}
+
+.game-card.lost .game-card-status {
+    color: #f87171;
+}
+
+.game-card.playing {
+    border-color: #f59e0b;
+}
+
+.game-card.playing .game-card-status {
+    color: #fbbf24;
+}
+
+.home-footer {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Tom Select dropdowns in the dark theme */
+/* tom-select.css turns the box white once a value is picked (.full) or while typing (.input-active),
+   which left white text on white, so every state is overridden here */
+.ts-control,
+.ts-wrapper .ts-control,
+.ts-wrapper.full .ts-control,
+.ts-wrapper.focus .ts-control,
+.ts-wrapper.dropdown-active .ts-control,
+.ts-wrapper.single.input-active .ts-control,
+.ts-dropdown {
+    background: #2a2a3e;
+    color: white;
+    border-color: #4a4a5e;
+}
+
+.ts-control .item,
+.ts-control input,
+.ts-control input::placeholder {
+    color: white;
+}
+
+.ts-dropdown .option {
+    color: white;
+}
+
+.ts-dropdown .active {
+    background: #3b82f6;
+    color: white;
 }
 
 /* Instructions Modal Styling */

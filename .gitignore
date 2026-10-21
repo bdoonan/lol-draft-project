@@ -1,0 +1,16 @@
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+.venv/
+
+# editor files
+.vs/
+.vscode/
+
+# flask instance folder (local config)
+instance/
+
+# empty database created when a script is run from inside flaskr/, the real one is test.db in the project root
+flaskr/test.db

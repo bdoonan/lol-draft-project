@@ -12,3 +12,27 @@ Added higher lower classes for guessed years so users can more easily guess the 
 
 **Update: 9/30/2024**
 Revamped site design and uploaded new images for champion picks using riot's Data Dragon site's resources. Improved the format and readability of the html pages by using flex containers. Also utlized sessions for counter since global variable was not thread safe.
+
+**Update: 10/20/2026**
+The game is now a single page. Guesses are sent to `/api/guess` and `/api/hint` with fetch and the page updates in place, including the end screen (stats, chart, VOD and a countdown to the next match).
+- The server keeps each player's progress in the session, so it enforces the daily lock: a finished game stays finished on refresh, and `/correct` / `/incorrect` just redirect to `/`. The answer and player names are no longer in the page source until they are revealed.
+- The daily match is picked from the date (a seeded shuffle that goes through every match before repeating), so it no longer depends on restarting the server and the `checkid` table isn't used.
+- Repeating a guess no longer costs an attempt. Stats are stored in one `lolStats` localStorage key (old stats are migrated automatically).
+
+**Update: daily games per region**
+The site now opens on a home page with six daily games: LCK (with OGN), LPL, LEC, LCS (with LTA / LTA North), International (Worlds, MSI and First Stand) and Worlds only. Each game picks its own match every day. You guess the year (higher/lower arrows), then the blue side and red side teams from the teams that played in that region that year. Every game has its own 5 attempts, hints and stats, and the home page shows which games you've won, lost or started. Pages are `/play/<game>`, e.g. `/play/lck`, and the API is `/api/<game>/guess` and `/api/<game>/hint`. The game list is `GAMES` in `flaskr/game.py`.
+
+**Draft order**
+The scraped match history lists picks by role, so the order teams picked in comes from a second source. After scraping, run `python -m flaskr.draftorder`: it reads Leaguepedia's picks-and-bans data (2017 onward) and saves each game's pick order in a `pickOrder` table, matching games on the champions each side picked. Games that have it show B1–B5 / R1–R5 badges and a Draft order / Roles switch; older games keep the role layout. It skips games it has already done, so re-run it after adding tournaments. The tournament list both scripts use is in `flaskr/tournaments.py`.
+
+**Logos and VODs**
+- Team logos: run `python -m flaskr.logos` from the project root after scraping new tournaments. It downloads each team's "logo square" image from Leaguepedia (128px) into `flaskr/static/images/teams/` and skips teams it already has. They appear in the team boxes once a team is guessed and on the end screen.
+- League logos for the home page cards: add `lck`, `lpl`, `lec`, `lcs`, `international` and `worlds` images (png, svg or webp) to `flaskr/static/images/leagues/`. A card without one just shows the name.
+- Logos are trademarks of Riot Games and the teams, used here under Riot's fan content policy for a free, non-commercial project.
+- The end screen shows the VOD as a click-to-play thumbnail with a "Watch on YouTube" link underneath. Each video is checked with YouTube once per server run, and deleted or private videos and old Twitch links show "No VOD available".
+
+Running it:
+- `startdata.py` no longer needs the drop lines commented out.
+- Set a `SECRET_KEY` environment variable when deployed, or anyone can forge a session and reset their attempts.
+- `FORCE_DAY=2025-01-01` pretends it is that day, for testing the rotation. `DATABASE` overrides the path to `test.db` (defaults to the project root).
+- Tests: `pip install pytest` then `python -m pytest tests`.

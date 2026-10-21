@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block body %}
+<main class="home">
+  <h1>LoL Draftle</h1>
+  <p class="home-sub">Guess today's pro match from its draft: first the year, then the two teams.</p>
+
+  <div class="game-grid">
+    {% for card in cards %}
+    <a class="game-card {{ card.stage if card.stage in ('won', 'lost') else ('playing' if card.started else 'new') }}"
+       href="{{ url_for('answer.play', slug=card.slug) }}">
+      {% if card.logo %}
+      <img class="game-card-logo" src="{{ card.logo }}" alt="">
+      {% endif %}
+      <span class="game-card-name">{{ card.name }}</span>
+      <span class="game-card-status">
+        {% if card.stage == 'won' %}Won in {{ card.attempts }}
+        {% elif card.stage == 'lost' %}Lost
+        {% elif card.started %}In progress · {{ card.attemptsLeft }} attempts left
+        {% else %}Play{% endif %}
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="home-footer">
+    <span id="countdown" class="countdown" data-next-reset="{{ next_reset }}"></span>
+    <button id="instructionsBtn" type="button">View Instructions</button>
+  </div>
+</main>
+{% endblock %}

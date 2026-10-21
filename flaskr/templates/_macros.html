@@ -1,0 +1,22 @@
+{# one side of the draft board. Player names start empty and are filled in by scripts.js from hints or the final result.
+   Picks are in role order in the html; css order puts them in draft order when the game has pick order data #}
+{% macro team_column(side, team) %}
+<div class="{{ 'leftimages' if side == 'blue' else 'rightimages' }}">
+  <div class="{{ side }}bans">
+    {% for ban in team.bans %}
+    <img class="{{ 'one' if side == 'blue' else 'two' }}{{ ' phase-gap' if loop.index == 3 }}" src="{{ ban }}" alt="">
+    {% endfor %}
+  </div>
+  <div class="{{ side }}team" id="{{ side }}-team-name">?</div>
+  {% for pick in team.picks %}
+  <div class="pick" data-role="{{ pick.role }}" data-pick="{{ pick.pick or '' }}" style="order: {{ pick.pick or pick.role + 1 }}">
+    <img class="{{ side }}" src="{{ pick.url }}" alt="">
+    <div class="pick-tags">
+      {% if pick.pick %}<span class="pick-badge">{{ 'B' if side == 'blue' else 'R' }}{{ pick.pick }}</span>{% endif %}
+      <span class="role-tag">{{ pick.role_name }}</span>
+    </div>
+    <h2><span class="{{ 'left' if side == 'blue' else 'right' }}" id="{{ side }}-player-{{ pick.role }}" hidden></span></h2>
+  </div>
+  {% endfor %}
+</div>
+{% endmacro %}

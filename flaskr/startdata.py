@@ -2,10 +2,10 @@ import sqlite3
 conn = sqlite3.connect("test.db")
 cur = conn.cursor()
 
-cur.execute('''DROP TABLE game''')
-cur.execute('''DROP TABLE redTeam''')
-cur.execute('''DROP TABLE blueTeam''')
-cur.execute('''DROP TABLE checkid''')
+cur.execute('''DROP TABLE IF EXISTS game''')
+cur.execute('''DROP TABLE IF EXISTS redTeam''')
+cur.execute('''DROP TABLE IF EXISTS blueTeam''')
+cur.execute('''DROP TABLE IF EXISTS checkid''')
 
 cur.execute('''
             CREATE TABLE game(id INT PRIMARY KEY, tournament TEXT, red TEXT, blue TEXT, vod TEXT)

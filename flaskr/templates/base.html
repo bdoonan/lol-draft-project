@@ -1,14 +1,15 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
-    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}LoL Draftle{% endblock %}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
 </head>
 <body>
   <!-- Instructions Modal -->
@@ -21,13 +22,13 @@
       <div class="modal-body">
         <h3>How to Play:</h3>
         <ul>
-          <li>Guess the daily professional league of legends match. Changes every 24 hours.</li>
-          <li>The match is randomly selected from tier 1 league playoffs, MSIs, and Worlds matches from 2013-present.</li>
-          <li>First select the tournament of the match from the dropdown and click submit</li>
-          <li>Red means incorrect, green means correct</li>
-          <li>If correct you can select the teams playing, if incorrect it will display what parts are correct and if year is higher or lower</li>
-          <li>Next select the match from the tournament, if one of teams is correct but on the wrong side it will be highlighted yellow</li>
-          <li>If you are stuck you can use the hint buttons to display a random player from that selected team</li>
+          <li>There is a new professional match every day for each region (LCK, LPL, LEC, LCS) and for international events (Worlds, MSI, First Stand), plus a Worlds only game.</li>
+          <li>Matches come from tier 1 league playoffs, MSIs, and Worlds from 2013-present.</li>
+          <li>You get 5 attempts per game. First guess the year: green is correct, the arrow shows if the answer is higher or lower</li>
+          <li>Next pick the event from that year, e.g. OGN Winter, Spring or Summer Playoffs, or MSI vs Worlds (skipped on the Worlds tab)</li>
+          <li>Then guess the blue side team, and once that's right, the red side team. Every wrong guess uses an attempt. Green means the right team, yellow means that team played but on the other side, red means wrong team</li>
+          <li>From 2017 on, picks are shown in the order they were drafted (B1 = blue side's first pick). Use the Draft order / Roles switch to line them up by lane instead</li>
+          <li>After 3 wrong guesses you can use one hint button to display a random player from that team. Another wrong guess unlocks the other hint</li>
         </ul>
          <p><strong>Have fun</strong></p>
       </div>
@@ -36,245 +37,7 @@
       </div>
     </div>
   </div>
-  
-      
-  <div class="fullpage">
-    <div class = "leftimages">
-      <div class = "bluebans">
-        <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[6])) }}">
-        <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[7])) }}">
-        <img class = "one" style="margin-right: 20px;"  src ="{{ url_for('static', filename='images/{}.png'.format(blue[8])) }}">
-        <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[9])) }}">
-        <img class = "one" src ="{{ url_for('static', filename='images/{}.png'.format(blue[10])) }}">
-      </div>
-      <div class="blueteam">
-        <span>?</span>
-      </div>
-      <div>
-      <img class = "blue" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(blue[1])) }}">
-      <h2>
-        <span class ="left" id="1" style='display: none; color: white;'>{{blue[11]}}</span>
-      </h2>
-      </div>
-      <div>
-        <img class = "blue" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(blue[2])) }}">
-      <h2 class = "left">
-        <span id="2" style='display: none; color: white;'>{{blue[12]}}</span>
-      </h2>
-      </div>
-      <div>
-        <img class = "blue" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(blue[3])) }}">
-      <h2>
-        <span class ="left" id="3" style='display: none; color: white;'>{{blue[13]}}</span>
-      </h2>
-      </div>
-      <div>
-        <img class = "blue" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(blue[4])) }}">
-      <h2>
-        <span class ="left" id="4" style='display: none; color: white;'>{{blue[14]}}</span>
-      </h2>
-      </div>
-      <div>
-        <img class = "blue" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(blue[5])) }}">
-      <h2>
-        <span class ="left" id="5" style='display: none; color: white;'>{{blue[15]}}</span>
-      </h2>
-      </div>
-    </div>
-    <div class = "guesses">
-      {% block content %}{% endblock %}
-      {% block content2 %}{% endblock %}
-      <div>
-        <button id = "bluehint" type="button" onclick="toggleText('{{randomblue}}')">Random Blue Team Player</button>
-        <button id = "redhint" type='button' onclick="toggleText2('{{randomred}}')">Random Red Team Player</button>
-        <button id = "instructionsBtn" type="button" onclick="showInstructions()">View Instructions</button>
-      </div>
-      {%block attempts%}{% endblock %}
-      <div>
-        <span id = "guess1y" style="color: white; font-size: 20px; display: inline;">
 
-        </span> 
-        <span id = "guess1t" style="color: white; font-size: 20px; display: inline;">
-    
-        </span> 
-        <span id = "guess1s" style="color: white; font-size: 20px; display: inline;">
-        </span> 
-        <img id = "guess1blueimg" class = "highlight" src="static/images/Empty.png">
-        <img id = "guess1redimg" src="static/images/Empty.png">
-
-      </div>
-      <div>
-        <span id = "guess2y" style="color: white; font-size: 20px; display: inline;">
-
-        </span> 
-        <span id = "guess2t" style="color: white; font-size: 20px; display: inline;">
-    
-        </span> 
-        <span id = "guess2s" style="color: white; font-size: 20px; display: inline;">
-        </span>
-        <img id = "guess2blueimg" class = "highlight" src="static/images/Empty.png">
-        <img id = "guess2redimg" src="static/images/Empty.png"> 
-
-      </div>
-      <div>
-        <span id = "guess3y" style="color: white; font-size: 20px; display: inline;">
-
-        </span> 
-        <span id = "guess3t" style="color: white; font-size: 20px; display: inline;">
-    
-        </span> 
-        <span id = "guess3s" style="color: white; font-size: 20px; display: inline;">
-        </span> 
-        <img id = "guess3blueimg" class = "highlight" src="static/images/Empty.png">
-        <img id = "guess3redimg" src="static/images/Empty.png">
-      </div>
-      <div>
-        <span id = "guess4y" style="color: white; font-size: 20px; display: inline;">
-
-        </span> 
-        <span id = "guess4t" style="color: white; font-size: 20px; display: inline;">
-    
-        </span> 
-        <span id = "guess4s" style="color: white; font-size: 20px; display: inline;">
-        </span> 
-        <img id = "guess4blueimg" class = "highlight" src="static/images/Empty.png">
-        <img id = "guess4redimg" src="static/images/Empty.png">
-      </div>
-      
-    </div>
-
-    <div class = "rightimages">
-      <div class = "redbans">
-        <img align = "right" class = "two" src ="{{ url_for('static', filename='images/{}.png'.format(red[6])) }}">
-        <img align = "right" class = "two" src ="{{ url_for('static', filename='images/{}.png'.format(red[7])) }}">
-        <img align = "right" class = "two" style="margin-left: 20px;"src ="{{ url_for('static', filename='images/{}.png'.format(red[8])) }}">
-        <img align = "right" class = "two" src ="{{ url_for('static', filename='images/{}.png'.format(red[9])) }}">
-        <img align = "right" class = "two" src ="{{ url_for('static', filename='images/{}.png'.format(red[10])) }}">
-      </div>
-      <div class="redteam">
-        <span>?</span>
-      </div>
-      <div>
-        <img class = "red" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(red[1])) }}">
-        <h2>
-          <span class ="right" id="6" style='display: none; color: white;'>{{red[11]}}</span>
-        </h2>
-        </div>
-        <div>
-        <img class = "red" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(red[2])) }}">
-          <h2>
-            
-            <span class ="right" id="7" style='display: none; color: white;'>{{red[12]}}</span>
-          </h2>
-        </div>
-        <div>
-            <img class = "red" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(red[3])) }}">
-            <h2>
-             
-              <span class ="right" id="8" style='display: none; color: white;'>{{red[13]}}</span>
-            </h2>
-        </div>
-        <div>
-              <img class = "red" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(red[4])) }}">
-              <h2>
-                
-                <span class ="right" id="9" style='display: none; color: white;'>{{red[14]}}</span>
-              </h2>
-        </div>
-        <div>
-                <img class = "red" src="{{ url_for('static', filename='images/centered/{}_0.jpg'.format(red[5])) }}">
-                <h2>
-                  
-                  <span class ="right" id="10" style='display: none; color: white;'>{{red[15]}}</span>
-                </h2>
-        </div>
-  
-    </div>
-  </div>
-  {% block revealAll %}{% endblock %}
-<script>
-  //clears localStorage when I test site
-  //localStorage.clear();
-  
-  if (localStorage){
-    //if there is no streak initialize the streak
-    if (localStorage.getItem('streak')==null){
-      localStorage.setItem('streak',0);
-    }
-    //if the user has no data initialize the localstorage data for game stats that will always be there
-    //these variables are total games played, amount of successful attempts, and variables for every number of possible attempts
-    if (localStorage.getItem('numGames')==null){
-      localStorage.setItem('numGames',0);
-      localStorage.setItem('wins',0);
-      localStorage.setItem('attempts1',0);
-      localStorage.setItem('attempts2',0);
-      localStorage.setItem('attempts3',0);
-      localStorage.setItem('attempts4',0);
-      localStorage.setItem('attempts5',0);
-      localStorage.setItem('failures',0);
-
-    }
-    const counter = localStorage.getItem('streak');
-    
-    //check if the user has already played today 
-    const id = "{{id}}";
-    window.checkcomplete(id);
-    const savedScores = localStorage.getItem('completed');
-    
-    const check = localStorage.getItem('done');
-    console.log(localStorage);
-    //commented out so I can test but on deployed site this automatically redirects to the completed webpages so the user has to wait to play the next day
-    // if (savedScores == 'correct'){
-    //   window.location.href = '/correct';
-    // }
-    // else if (savedScores == "incorrect"){
-    //   window.location.href = '/incorrect';
-    // }
-    
-    
-  }
-  //if browser does not support local storage
-  else{
-    console.log("not supported");
-  }
-  
-  // Show instructions modal on first visit
-  window.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('instructionsModal');
-    const closeBtn = document.getElementById('closeModalBtn');
-    const closeSpan = document.querySelector('.close-modal');
-    
-    // Check if user has seen instructions before
-    if (!localStorage.getItem('hasSeenInstructions')) {
-      modal.style.display = 'block';
-    }
-    
-    // Close modal when clicking the X
-    if (closeSpan) {
-      closeSpan.onclick = function() {
-        modal.style.display = 'none';
-        localStorage.setItem('hasSeenInstructions', 'true');
-      };
-    }
-    
-    // Close modal when clicking the button
-    if (closeBtn) {
-      closeBtn.onclick = function() {
-        modal.style.display = 'none';
-        localStorage.setItem('hasSeenInstructions', 'true');
-      };
-    }
-    
-    // Close modal when clicking outside of it
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = 'none';
-        localStorage.setItem('hasSeenInstructions', 'true');
-      }
-    };
-  });
-</script>
+  {% block body %}{% endblock %}
 </body>
-
 </html>
- 
