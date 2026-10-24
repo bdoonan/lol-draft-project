@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}LoL Draftle{% endblock %}</title>
+    <!-- site icon: the worlds logo in white on the site's navy, made from static/images/leagues/worlds.png -->
+    <link rel="icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" sizes="16x16 32x32 48x48">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icons/icon-192.png') }}" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <meta name="theme-color" content="#16213e">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css">
     <link rel="stylesheet" href="{{ asset_url('styles.css') }}">

@@ -6,7 +6,8 @@ import urllib.request
 from datetime import date, datetime, time, timedelta, timezone
 from functools import lru_cache
 from flask import (
-    Blueprint, abort, current_app, jsonify, redirect, render_template, request, session, url_for
+    Blueprint, abort, current_app, jsonify, redirect, render_template, request, send_from_directory, session,
+    url_for
 )
 from . import db
 from .game import (
@@ -411,6 +412,13 @@ def debug_reset():
                   else "localStorage.removeItem('lolStats');")
     target = url_for('answer.play', slug=slug) if slug else url_for('answer.home')
     return f"<script>{script}location.replace('{target}');</script>"
+
+
+@bp.route('/favicon.ico')
+def favicon():
+    #some browsers and link previews ask for /favicon.ico directly instead of reading the <link> tags
+    return send_from_directory(os.path.join(current_app.static_folder, 'icons'), 'favicon.ico',
+                               mimetype='image/vnd.microsoft.icon')
 
 
 #old multi page urls, kept so bookmarks still land on the site

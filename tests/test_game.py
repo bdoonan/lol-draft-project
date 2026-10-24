@@ -424,6 +424,14 @@ def test_countdown_gets_the_server_time(client):
     assert 'data-server-now="' in client.get('/').get_data(as_text=True)
 
 
+def test_site_icon(client):
+    html = client.get('/').get_data(as_text=True)
+    assert '/static/icons/favicon.ico' in html and 'apple-touch-icon.png' in html
+    r = client.get('/favicon.ico')
+    assert r.status_code == 200 and r.data[:4] == b'\x00\x00\x01\x00'  # ico file header
+    assert client.get('/static/icons/site.webmanifest').status_code == 200
+
+
 def test_referrer_policy_header(client):
     assert client.get('/').headers['Referrer-Policy'] == 'strict-origin-when-cross-origin'
 
