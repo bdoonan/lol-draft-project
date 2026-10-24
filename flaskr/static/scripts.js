@@ -61,9 +61,15 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify(body),
+      //day the page was loaded for, so a guess made after the reset isn't applied to the new match
+      body: JSON.stringify(Object.assign({ day: state.day }, body)),
     });
     const data = await res.json().catch(() => ({}));
+    //the page is from before the daily reset, show the new matches instead
+    if (data.newDay) {
+      window.location.reload();
+      throw new Error('New matches are out, loading them…');
+    }
     if (!res.ok) throw new Error(data.error || 'Something went wrong, try again.');
     return data;
   }
@@ -241,7 +247,7 @@
     $('streak').textContent = 'Current streak: ' + stats.streak;
     drawChart(stats);
     renderVod(result);
-    startCountdown(state.nextReset);
+    startCountdown(state.nextReset, state.serverNow);
   }
 
   //shows a thumbnail first and only loads youtube's player when clicked,
@@ -303,11 +309,13 @@
     });
   }
 
-  function startCountdown(nextReset) {
+  //counts down on the server's clock: offset corrects for a visitor's clock being minutes off
+  function startCountdown(nextReset, serverNow) {
     if (countdownTimer) return;
     const target = Date.parse(nextReset);
+    const offset = serverNow ? Date.parse(serverNow) - Date.now() : 0;
     const tick = () => {
-      const left = target - Date.now();
+      const left = target - (Date.now() + offset);
       if (left <= 0) {
         clearInterval(countdownTimer);
         window.location.reload();
@@ -320,6 +328,16 @@
     };
     tick();
     countdownTimer = setInterval(tick, 1000);
+  }
+
+  //a tab left open in the background past the daily reset shows yesterday's matches,
+  //so reload when it comes back into view after the reset
+  function reloadWhenStale(nextReset, serverNow) {
+    const target = Date.parse(nextReset);
+    const offset = serverNow ? Date.parse(serverNow) - Date.now() : 0;
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && Date.now() + offset >= target) window.location.reload();
+    });
   }
 
   //---------- stats per game (kept in this browser only) ----------
@@ -419,10 +437,12 @@
   const stateEl = $('state');
   if (!stateEl) {
     //home page
-    startCountdown($('countdown').dataset.nextReset);
+    startCountdown($('countdown').dataset.nextReset, $('countdown').dataset.serverNow);
+    reloadWhenStale($('countdown').dataset.nextReset, $('countdown').dataset.serverNow);
     return;
   }
   state = JSON.parse(stateEl.textContent);
+  reloadWhenStale(state.nextReset, state.serverNow);
   //the first version kept guess history in sessionStorage, it is all on the server now
   try { window.sessionStorage.clear(); } catch (e) { /* ignore */ }
   yearPicker = picker('year-select');

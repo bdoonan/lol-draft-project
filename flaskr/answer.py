@@ -152,6 +152,11 @@ def next_reset():
     return datetime.combine(today() + timedelta(days=1), time(), timezone.utc).isoformat()
 
 
+def server_now():
+    """sent with the countdown so it runs on the server's clock, not the visitor's (which can be minutes off)"""
+    return datetime.now(timezone.utc).isoformat()
+
+
 def todays_id(slug):
     day = today()
     other = AVOID_SAME.get(slug)
@@ -187,6 +192,13 @@ def load_games():
                 isinstance(g, list) and g[0] not in ('event',) + SIDES for g in state['guesses'])):
             del games[slug]
     return games
+
+
+def save_games(games):
+    #permanent = the cookie gets an expiry date (PERMANENT_SESSION_LIFETIME) instead of being deleted when
+    #the browser closes, which phones do in the background and which looked like the game resetting
+    session.permanent = True
+    session['games'] = games
 
 
 def new_state():
@@ -241,6 +253,7 @@ def public_state(slug, state, game):
         'hintsAvailable': hints_available(state, game),
         'hintAfter': HINT_AFTER,
         'nextReset': next_reset(),
+        'serverNow': server_now(),
     }
     if state['stage'] != 'year':
         out['year'] = game['year']
@@ -291,7 +304,7 @@ def home():
                       'logo': league_logo_url(g['slug']),
                       'attemptsLeft': MAX_ATTEMPTS - misses(state, answer),
                       'attempts': misses(state, answer) + 1})
-    return render_template('home.html', cards=cards, next_reset=next_reset())
+    return render_template('home.html', cards=cards, next_reset=next_reset(), server_now=server_now())
 
 
 @bp.route('/play/<slug>')
@@ -304,15 +317,26 @@ def play(slug):
 
 
 #---------- api ----------
+def stale_page(data):
+    """the page was loaded before the daily reset: its guess belongs to yesterday's match, so the page
+    is told to reload instead (older pages that don't send a day are let through)"""
+    day = data.get('day')
+    if day and day != today().isoformat():
+        return jsonify(error='New matches are out.', newDay=True), 409
+    return None
+
+
 @bp.post('/api/<slug>/guess')
 def guess(slug):
     get_slug_or_404(slug)
+    data = request.get_json(silent=True) or {}
+    if stale := stale_page(data):
+        return stale
     game = db.get_game(todays_id(slug))
     games = load_games()
     state = games.setdefault(slug, new_state())
     if state['stage'] in FINISHED:
         return jsonify(error="This game is already finished for today."), 409
-    data = request.get_json(silent=True) or {}
 
     if state['stage'] == 'year':
         try:
@@ -342,14 +366,17 @@ def guess(slug):
         state['stage'] = next_stage(slug, state['stage'], game)
     elif misses(state, game) >= MAX_ATTEMPTS:
         state['stage'] = 'lost'
-    session['games'] = games
+    save_games(games)
     return jsonify(public_state(slug, state, game))
 
 
 @bp.post('/api/<slug>/hint')
 def hint(slug):
     get_slug_or_404(slug)
-    side = (request.get_json(silent=True) or {}).get('side')
+    data = request.get_json(silent=True) or {}
+    if stale := stale_page(data):
+        return stale
+    side = data.get('side')
     if side not in SIDES:
         abort(400)
     game = db.get_game(todays_id(slug))
@@ -359,7 +386,7 @@ def hint(slug):
         if state['stage'] in FINISHED or hints_available(state, game) == 0:
             return jsonify(error=f'Hints unlock after {HINT_AFTER} wrong guesses, one per wrong guess.'), 403
         state['hints'].append(side)
-        session['games'] = games
+        save_games(games)
     return jsonify(public_state(slug, state, game))
 
 
@@ -376,7 +403,7 @@ def debug_reset():
         games.pop(slug, None)
     else:
         games = {'day': games['day']}
-    session['games'] = games
+    save_games(games)
     script = ''
     if request.args.get('stats'):
         script = (f"var s=JSON.parse(localStorage.getItem('lolStats')||'{{}}');delete s[{json.dumps(slug)}];"

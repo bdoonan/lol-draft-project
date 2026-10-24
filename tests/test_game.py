@@ -1,6 +1,7 @@
 import re
 import sqlite3
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 
 import pytest
 
@@ -398,6 +399,29 @@ def test_analytics_script_only_when_configured(client, app):
     app.config['GOATCOUNTER_CODE'] = 'loldraftle'
     for url in ('/', '/play/lck'):
         assert 'data-goatcounter="https://loldraftle.goatcounter.com/count"' in client.get(url).get_data(as_text=True)
+
+
+def test_session_cookie_survives_closing_the_browser(client):
+    r = client.post('/api/lck/guess', json={'year': 2013, 'day': DAY})
+    cookie = r.headers['Set-Cookie']
+    #an expiry date makes it a persistent cookie, without one browsers delete it when they close
+    expires = parsedate_to_datetime(re.search(r'Expires=([^;]+)', cookie).group(1))
+    assert timedelta(days=1, hours=23) < expires - datetime.now(timezone.utc) <= timedelta(days=2)
+
+
+def test_guess_from_a_page_loaded_before_the_reset(client, app):
+    #page loaded yesterday, guess sent after midnight utc
+    r = client.post('/api/lck/guess', json={'year': 2013, 'day': '2024-12-31'})
+    assert r.status_code == 409 and r.json['newDay'] is True
+    assert client.post('/api/lck/hint', json={'side': 'blue', 'day': '2024-12-31'}).json['newDay'] is True
+    #nothing was saved for today
+    assert '"guesses": []' in client.get('/play/lck').get_data(as_text=True)
+    assert client.post('/api/lck/guess', json={'year': 2013, 'day': DAY}).status_code == 200
+
+
+def test_countdown_gets_the_server_time(client):
+    assert '"serverNow": "' in client.get('/play/lck').get_data(as_text=True)
+    assert 'data-server-now="' in client.get('/').get_data(as_text=True)
 
 
 def test_referrer_policy_header(client):

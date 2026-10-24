@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from flask import Flask
 
 def create_app(test_config=None):
@@ -13,6 +14,8 @@ def create_app(test_config=None):
         FORCE_DAY=os.environ.get('FORCE_DAY'),
         #the code from <code>.goatcounter.com, analytics are off when it isn't set (local runs, tests)
         GOATCOUNTER_CODE=os.environ.get('GOATCOUNTER_CODE'),
+        #game progress only matters for one day, two covers any time zone
+        PERMANENT_SESSION_LIFETIME=timedelta(days=2),
     )
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
