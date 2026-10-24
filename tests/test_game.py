@@ -28,6 +28,8 @@ def fixture_games():
             a, b, c = (f'{league}{year}Team{i}' for i in 'ABC')
             rows.append((len(rows), f'{year} {name}', b, a))
             rows.append((len(rows), f'{year} {name}', a, c))
+    #a year with worlds but no msi, like 2013, 2014 and 2020 in the real data
+    rows.append((len(rows), '2012 Worlds', 'Worlds2012TeamB', 'Worlds2012TeamA'))
     return rows
 
 
@@ -224,6 +226,20 @@ def test_event_step(client, app):
     assert len(r.json['teams']) == 3 and a['blue'] in r.json['teams']
     #the worlds tab only has one event per year, so it goes straight to the teams
     assert client.post('/api/worlds/guess', json={'year': answer(app, 'worlds')['year']}).json['stage'] == 'blue'
+
+
+def test_international_asks_the_event_in_worlds_only_years(app):
+    from flaskr import db
+    from flaskr import answer as views
+    with app.test_request_context():
+        #msi is offered even though only worlds happened, so the step isn't skipped
+        assert db.tournaments('international', 2012) == ['2012 MSI', '2012 Worlds']
+        assert views.next_stage('international', 'year', {'year': 2012}) == 'event'
+        #the worlds tab still goes straight to the teams
+        assert db.tournaments('worlds', 2012) == ['2012 Worlds']
+        assert views.next_stage('worlds', 'year', {'year': 2012}) == 'blue'
+        #region tabs don't get extra options
+        assert db.tournaments('lck', 2015) == ['2015 LCK Spring Playoffs', '2015 OGN Summer Playoffs']
 
 
 def test_loss_spread_across_steps(client, app):

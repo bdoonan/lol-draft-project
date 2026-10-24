@@ -19,7 +19,10 @@ GAMES = [
     {'slug': 'lpl', 'name': 'LPL', 'leagues': ('LPL',)},
     {'slug': 'lec', 'name': 'LEC', 'leagues': ('LEC',)},
     {'slug': 'lcs', 'name': 'LCS', 'leagues': ('LCS', 'LTA', 'LTA_North')},
-    {'slug': 'international', 'name': 'International', 'leagues': ('Worlds', 'MSI', 'First')},
+    #always_events are offered in the event step even in years they didn't happen (MSI started in 2015 and
+    #was cancelled in 2020), so a worlds-only year isn't skipped and doesn't give the answer away
+    {'slug': 'international', 'name': 'International', 'leagues': ('Worlds', 'MSI', 'First'),
+     'always_events': ('MSI', 'Worlds')},
     {'slug': 'worlds', 'name': 'Worlds', 'leagues': ('Worlds',)},
 ]
 GAMES_BY_SLUG = {g['slug']: g for g in GAMES}

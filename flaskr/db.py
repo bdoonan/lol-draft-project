@@ -59,9 +59,11 @@ def years(slug):
 
 
 def tournaments(slug, year):
-    """the events in this game's pool that year, the options for the event step"""
+    """the options for the event step: the events in this game's pool that year, plus the game's
+    always_events (which may not have happened that year, so they are only ever wrong guesses)"""
+    always = {f'{year} {event}' for event in GAMES_BY_SLUG[slug].get('always_events', ())}
     return _cached(('tournaments', slug, year), lambda: sorted(
-        {r[1] for r in _pool_rows(slug) if tournament_year(r[1]) == year}, key=event_order
+        {r[1] for r in _pool_rows(slug) if tournament_year(r[1]) == year} | always, key=event_order
     ))
 
 
